@@ -7,7 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Page, PageFooter, PageHeader, PageScrollableContentWithShadow } from '../../../components/Page';
 import { useRemoveBusinessHour } from '../../../omnichannel/businessHours/useRemoveBusinessHour';
-import type { BusinessHoursFormData } from './BusinessHoursForm';
+import type { BusinessHoursFields } from './BusinessHoursForm';
 import BusinessHoursForm from './BusinessHoursForm';
 import { defaultWorkHours } from './mapBusinessHoursForm';
 import { useIsSingleBusinessHours } from './useIsSingleBusinessHours';
@@ -51,7 +51,7 @@ const EditBusinessHours = ({ businessHourData, type }: EditBusinessHoursProps) =
 		formState: { isDirty },
 	} = methods;
 
-	const handleSave = useMutableCallback(async ({ departments, ...data }: BusinessHoursFormData) => {
+	const handleSave = useMutableCallback(async ({ departments, ...data }: BusinessHoursFields) => {
 		const departmentsToApplyBusinessHour = departments?.map((dep) => dep.value).join(',') || '';
 
 		try {

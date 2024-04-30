@@ -22,7 +22,8 @@ const MultiChannelsSelectElement = ({
   const options = useChannelsData({ filter: filterDebounced });
 
   const handleChange = useCallback(
-    (value) => {
+    (value: string | string[]) => {
+      if (!Array.isArray(value)) return;
       action({ target: { value } });
     },
     [action]

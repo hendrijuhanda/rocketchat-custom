@@ -7,13 +7,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import AutoCompleteDepartmentMultiple from '../../components/AutoCompleteDepartmentMultiple';
 import { useHasLicenseModule } from '../../hooks/useHasLicenseModule';
+import type { BusinessHoursFields } from '../../views/omnichannel/businessHours/BusinessHoursForm';
 
 const BusinessHoursMultiple = ({ className }: { className?: ComponentProps<typeof Field>['className'] }) => {
 	const t = useTranslation();
 	const {
 		control,
 		formState: { errors },
-	} = useFormContext();
+	} = useFormContext<BusinessHoursFields>();
 	const hasLicense = useHasLicenseModule('livechat-enterprise');
 
 	const enabledField = useUniqueId();
