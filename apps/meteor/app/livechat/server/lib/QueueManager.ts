@@ -108,8 +108,6 @@ export const QueueManager: queueManager = {
 		void Apps.self?.triggerEvent(AppEvents.IPostLivechatRoomStarted, room);
 		await LivechatRooms.updateRoomCount();
 
-		console.log('REQUEST', inquiry, agent, guest);
-
 		await queueInquiry(inquiry, agent);
 		logger.debug(`Inquiry ${inquiry._id} queued`);
 
