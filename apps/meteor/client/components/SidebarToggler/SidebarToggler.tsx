@@ -9,7 +9,7 @@ import SidebarTogglerButton from './SidebarTogglerButton';
 const SideBarToggler = (): ReactElement => {
 	const { sidebar } = useLayout();
 	const isLayoutEmbedded = useEmbeddedLayout();
-	const unreadMessagesBadge = useSession('unread');
+	const unreadMessagesBadge = useSession('unread') as number | string;
 
 	const toggleSidebar = useEffectEvent(() => sidebar.toggle());
 

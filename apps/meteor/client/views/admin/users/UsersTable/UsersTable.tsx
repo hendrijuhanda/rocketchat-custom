@@ -125,7 +125,7 @@ const UsersTable = ({
 	);
 
 	const handleSearchTextChange = useCallback(
-		({ text }) => {
+		({ text }: { text: string }) => {
 			setUserFilters({ text });
 		},
 		[setUserFilters],
