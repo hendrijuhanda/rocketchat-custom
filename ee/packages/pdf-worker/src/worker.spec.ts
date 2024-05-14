@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 import { PdfWorker } from './index';
 import {
 	bigConversationData,
@@ -51,7 +49,6 @@ describe('PdfWorker', () => {
 		const stream = await pdfWorker.renderToStream({ data: dataWithASingleMessageAndAnImage });
 		const buffer = await streamToBuffer(stream);
 
-		fs.writeFileSync('test.pdf', buffer);
 		expect(buffer).toBeTruthy();
 	});
 

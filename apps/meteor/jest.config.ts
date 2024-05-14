@@ -1,6 +1,6 @@
 import type { Config } from 'jest';
 
-const config: Config = {
+export default {
 	projects: [
 		{
 			displayName: 'client',
@@ -24,6 +24,7 @@ const config: Config = {
 				'^@tanstack/(.+)': '<rootDir>/node_modules/@tanstack/$1',
 				'^meteor/(.*)': '<rootDir>/.meteorMocks/index.ts',
 			},
+			setupFilesAfterEnv: ['@testing-library/jest-dom'],
 		},
 		{
 			displayName: 'server',
@@ -51,6 +52,4 @@ const config: Config = {
 		},
 	],
 	collectCoverage: true,
-};
-
-export default config;
+} satisfies Config;

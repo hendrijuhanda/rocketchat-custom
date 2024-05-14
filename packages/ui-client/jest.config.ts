@@ -23,5 +23,5 @@ export default {
 	},
 	collectCoverage: true,
 	collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-	setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+	setupFilesAfterEnv: ['@testing-library/jest-dom'],
 };
