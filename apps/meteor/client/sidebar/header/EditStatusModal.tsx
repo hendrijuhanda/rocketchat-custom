@@ -1,6 +1,6 @@
 import type { IUser } from '@rocket.chat/core-typings';
 import { Field, TextInput, FieldGroup, Modal, Button, Box, FieldLabel, FieldRow, FieldError, FieldHint } from '@rocket.chat/fuselage';
-import { useLocalStorage, useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent, useLocalStorage } from '@rocket.chat/fuselage-hooks';
 import { useToastMessageDispatch, useSetting, useTranslation, useEndpoint } from '@rocket.chat/ui-contexts';
 import type { ReactElement, ChangeEvent, ComponentProps, FormEvent } from 'react';
 import React, { useState, useCallback } from 'react';
@@ -27,7 +27,7 @@ const EditStatusModal = ({ onClose, userStatus, userStatusText }: EditStatusModa
 
 	const setUserStatus = useEndpoint('POST', '/v1/users.setStatus');
 
-	const handleStatusText = useMutableCallback((e: ChangeEvent<HTMLInputElement>): void => {
+	const handleStatusText = useEffectEvent((e: ChangeEvent<HTMLInputElement>): void => {
 		setStatusText(e.currentTarget.value);
 
 		if (statusText && statusText.length > USER_STATUS_TEXT_MAX_LENGTH) {
@@ -37,7 +37,7 @@ const EditStatusModal = ({ onClose, userStatus, userStatusText }: EditStatusModa
 		return setStatusTextError(undefined);
 	});
 
-	const handleStatusType = (type: IUser['status']): void => setStatusType(type);
+	const handleStatusType = (type: IUser['status']) => setStatusType(type);
 
 	const handleSaveStatus = useCallback(async () => {
 		try {
@@ -49,7 +49,7 @@ const EditStatusModal = ({ onClose, userStatus, userStatusText }: EditStatusModa
 		}
 
 		onClose();
-	}, [dispatchToastMessage, setUserStatus, statusText, statusType, onClose, t]);
+	}, [onClose, setUserStatus, statusText, statusType, setCustomStatus, dispatchToastMessage, t]);
 
 	return (
 		<Modal

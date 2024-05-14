@@ -1,5 +1,5 @@
 import { Pagination } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useRoute, useTranslation, useEndpoint, useUserId } from '@rocket.chat/ui-contexts';
 import { useQuery, hashQueryKey } from '@tanstack/react-query';
 import React, { useState, useMemo } from 'react';
@@ -38,7 +38,7 @@ const CallTable = () => {
 		[sortBy, current, sortDirection, itemsPerPage, userIdLoggedIn, text],
 	);
 
-	const onRowClick = useMutableCallback((id, token) => {
+	const onRowClick = useEffectEvent((id, token) => {
 		directoryRoute.push(
 			{
 				page: 'calls',

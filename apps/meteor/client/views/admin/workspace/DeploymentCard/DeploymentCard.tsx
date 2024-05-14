@@ -1,6 +1,6 @@
 import type { IWorkspaceInfo, IStats } from '@rocket.chat/core-typings';
 import { Button, Card, CardControls } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import type { IInstance } from '@rocket.chat/rest-typings';
 import { useSetModal, useTranslation } from '@rocket.chat/ui-contexts';
 import type { ReactElement } from 'react';
@@ -23,7 +23,7 @@ const DeploymentCard = ({ serverInfo: { info, cloudWorkspaceId }, statistics, in
 
 	const { commit = {}, marketplaceApiVersion: appsEngineVersion } = info || {};
 
-	const handleInstancesModal = useMutableCallback(() => {
+	const handleInstancesModal = useEffectEvent(() => {
 		setModal(<InstancesModal instances={instances} onClose={(): void => setModal()} />);
 	});
 

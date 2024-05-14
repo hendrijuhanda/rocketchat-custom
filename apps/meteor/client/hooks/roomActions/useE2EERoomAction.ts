@@ -1,5 +1,5 @@
 import { isRoomFederated } from '@rocket.chat/core-typings';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useSetting, usePermission, useEndpoint } from '@rocket.chat/ui-contexts';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ export const useE2EERoomAction = () => {
 
 	const toggleE2E = useEndpoint('POST', '/v1/rooms.saveRoomSettings');
 
-	const action = useMutableCallback(async () => {
+	const action = useEffectEvent(async () => {
 		const { success } = await toggleE2E({ rid: room._id, encrypted: !room.encrypted });
 		if (!success) {
 			return;

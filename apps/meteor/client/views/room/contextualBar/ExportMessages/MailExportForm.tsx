@@ -16,7 +16,7 @@ import {
 	FieldGroup,
 	Select,
 } from '@rocket.chat/fuselage';
-import { useAutoFocus, useMutableCallback, useUniqueId } from '@rocket.chat/fuselage-hooks';
+import { useAutoFocus, useEffectEvent, useUniqueId } from '@rocket.chat/fuselage-hooks';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 import React, { useEffect, useContext } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -55,7 +55,7 @@ const MailExportForm = ({ formId, rid, onCancel, exportOptions }: MailExportForm
 
 	const count = useCountSelected();
 
-	const clearSelection = useMutableCallback(() => {
+	const clearSelection = useEffectEvent(() => {
 		selectedMessageStore.clearStore();
 	});
 

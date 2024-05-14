@@ -1,6 +1,6 @@
 import type { IRoom, Serialized } from '@rocket.chat/core-typings';
 import { CheckBox, Margins } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import React from 'react';
 
 import { GenericTableRow, GenericTableCell } from '../../../../../../components/GenericTable';
@@ -14,7 +14,7 @@ type ChannelDeletionTableRowProps = {
 
 const ChannelDeletionTableRow = ({ room, onChange, selected }: ChannelDeletionTableRowProps) => {
 	const { name, fname, usersCount } = room;
-	const handleChange = useMutableCallback(() => onChange(room));
+	const handleChange = useEffectEvent(() => onChange(room));
 
 	return (
 		<GenericTableRow action>

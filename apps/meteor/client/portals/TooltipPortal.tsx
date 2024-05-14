@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { createAnchor } from '../lib/utils/createAnchor';
@@ -10,9 +10,18 @@ type TooltipPortalProps = {
 };
 
 const TooltipPortal = ({ children }: TooltipPortalProps) => {
-	const [tooltipRoot] = useState(() => createAnchor('tooltip-root'));
-	useEffect(() => (): void => deleteAnchor(tooltipRoot), [tooltipRoot]);
-	return <>{createPortal(children, tooltipRoot)}</>;
+	const [tooltipRoot, setTooltipRoot] = useState<HTMLElement>();
+
+	useEffect(() => {
+		const tooltipRoot = createAnchor('tooltip-root');
+		setTooltipRoot(tooltipRoot);
+
+		return () => deleteAnchor(tooltipRoot);
+	}, []);
+
+	if (!tooltipRoot) return null;
+
+	return createPortal(children, tooltipRoot);
 };
 
 export default memo(TooltipPortal);

@@ -1,7 +1,7 @@
 import type { IGroupVideoConference } from '@rocket.chat/core-typings';
 import { css } from '@rocket.chat/css-in-js';
 import { Button, Message, Box, Avatar, Palette } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { UserAvatar } from '@rocket.chat/ui-avatar';
 import { useTranslation, useSetting } from '@rocket.chat/ui-contexts';
 import type { ReactElement } from 'react';
@@ -46,7 +46,7 @@ const VideoConfListItem = ({
 		}
 	`;
 
-	const handleJoinConference = useMutableCallback((): void => {
+	const handleJoinConference = useEffectEvent((): void => {
 		joinCall(callId);
 		return reload();
 	});

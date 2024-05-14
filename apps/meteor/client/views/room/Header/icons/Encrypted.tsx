@@ -1,5 +1,5 @@
 import type { IRoom } from '@rocket.chat/core-typings';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import colors from '@rocket.chat/fuselage-tokens/colors';
 import { HeaderState } from '@rocket.chat/ui-client';
 import { useSetting, usePermission, useTranslation, useEndpoint } from '@rocket.chat/ui-contexts';
@@ -13,7 +13,7 @@ const Encrypted = ({ room }: { room: IRoom }) => {
 	const toggleE2E = useEndpoint('POST', '/v1/rooms.saveRoomSettings');
 	const canToggleE2E = usePermission('toggle-room-e2e-encryption');
 	const encryptedLabel = canToggleE2E ? t('Encrypted_key_title') : t('Encrypted');
-	const handleE2EClick = useMutableCallback(async () => {
+	const handleE2EClick = useEffectEvent(async () => {
 		if (!canToggleE2E) {
 			return;
 		}

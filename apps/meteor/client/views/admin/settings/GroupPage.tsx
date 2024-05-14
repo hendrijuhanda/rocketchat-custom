@@ -1,6 +1,6 @@
 import type { ISetting, ISettingColor } from '@rocket.chat/core-typings';
 import { Accordion, Box, Button, ButtonGroup } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import type { TranslationKey } from '@rocket.chat/ui-contexts';
 import { useToastMessageDispatch, useSettingsDispatch, useSettings, useTranslation, useRoute } from '@rocket.chat/ui-contexts';
 import type { FC, ReactNode, FormEvent, MouseEvent } from 'react';
@@ -56,7 +56,7 @@ const GroupPage: FC<GroupPageProps> = ({
 
 	const isColorSetting = (setting: ISetting): setting is ISettingColor => setting.type === 'color';
 
-	const save = useMutableCallback(async () => {
+	const save = useEffectEvent(async () => {
 		const changes = changedEditableSettings.map((setting) => {
 			if (isColorSetting(setting)) {
 				return {
@@ -86,7 +86,7 @@ const GroupPage: FC<GroupPageProps> = ({
 
 	const dispatchToEditing = useEditableSettingsDispatch();
 
-	const cancel = useMutableCallback(() => {
+	const cancel = useEffectEvent(() => {
 		const settingsToDispatch = changedEditableSettings
 			.map(({ _id }) => originalSettings.find((setting) => setting._id === _id))
 			.map((setting) => {
@@ -118,7 +118,7 @@ const GroupPage: FC<GroupPageProps> = ({
 		save();
 	};
 
-	const handleBack = useMutableCallback(() => router.push({}));
+	const handleBack = useEffectEvent(() => router.push({}));
 
 	const handleCancelClick = (event: MouseEvent<HTMLOrSVGElement>): void => {
 		event.preventDefault();

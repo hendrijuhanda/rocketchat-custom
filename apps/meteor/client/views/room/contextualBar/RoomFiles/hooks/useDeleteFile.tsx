@@ -1,4 +1,4 @@
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useSetModal, useToastMessageDispatch, useMethod, useTranslation } from '@rocket.chat/ui-contexts';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export const useDeleteFile = (reload: () => void) => {
 	const dispatchToastMessage = useToastMessageDispatch();
 	const deleteFile = useMethod('deleteFileMessage');
 
-	const handleDelete = useMutableCallback((_id) => {
+	const handleDelete = useEffectEvent((_id) => {
 		const onConfirm = async () => {
 			try {
 				await deleteFile(_id);

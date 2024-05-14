@@ -1,5 +1,5 @@
 import { Box, Margins, Tag, Button, ButtonGroup } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useToastMessageDispatch, useRoute, useUserSubscription, useTranslation, usePermission } from '@rocket.chat/ui-contexts';
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
@@ -72,7 +72,7 @@ function ChatInfo({ id, route }) {
 		return field?.visibility === 'visible' && field?.scope === 'room';
 	};
 
-	const onEditClick = useMutableCallback(() => {
+	const onEditClick = useEffectEvent(() => {
 		const hasEditAccess = !!subscription || hasLocalEditRoomPermission || hasGlobalEditRoomPermission;
 		if (!hasEditAccess) {
 			return dispatchToastMessage({ type: 'error', message: t('Not_authorized') });

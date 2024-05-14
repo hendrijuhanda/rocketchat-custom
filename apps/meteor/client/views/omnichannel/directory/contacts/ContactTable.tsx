@@ -1,5 +1,5 @@
 import { Pagination, States, StatesAction, StatesActions, StatesIcon, StatesTitle, Box } from '@rocket.chat/fuselage';
-import { useDebouncedState, useDebouncedValue, useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useDebouncedState, useDebouncedValue, useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useRoute, useTranslation } from '@rocket.chat/ui-contexts';
 import { hashQueryKey } from '@tanstack/react-query';
 import type { ReactElement } from 'react';
@@ -49,14 +49,14 @@ function ContactTable(): ReactElement {
 	const directoryRoute = useRoute('omnichannel-directory');
 	const formatDate = useFormatDate();
 
-	const onButtonNewClick = useMutableCallback(() =>
+	const onButtonNewClick = useEffectEvent(() =>
 		directoryRoute.push({
 			page: 'contacts',
 			bar: 'new',
 		}),
 	);
 
-	const onRowClick = useMutableCallback(
+	const onRowClick = useEffectEvent(
 		(id) => (): void =>
 			directoryRoute.push({
 				page: 'contacts',

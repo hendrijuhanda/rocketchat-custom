@@ -1,5 +1,5 @@
 import { IconButton } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useSetModal, useToastMessageDispatch, useEndpoint, useTranslation } from '@rocket.chat/ui-contexts';
 import type { FC } from 'react';
 import React from 'react';
@@ -13,7 +13,7 @@ const RemoveAgentButton: FC<{ username: string; reload: () => void }> = ({ usern
 	const dispatchToastMessage = useToastMessageDispatch();
 	const t = useTranslation();
 
-	const handleRemoveClick = useMutableCallback(async () => {
+	const handleRemoveClick = useEffectEvent(async () => {
 		try {
 			await removeAgent();
 		} catch (error: unknown) {
@@ -22,7 +22,7 @@ const RemoveAgentButton: FC<{ username: string; reload: () => void }> = ({ usern
 		reload();
 	});
 
-	const handleDelete = useMutableCallback((e) => {
+	const handleDelete = useEffectEvent((e) => {
 		e.stopPropagation();
 		const onDeleteAgent = async (): Promise<void> => {
 			try {

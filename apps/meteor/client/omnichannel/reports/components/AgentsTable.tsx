@@ -1,4 +1,4 @@
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 import React, { memo } from 'react';
 
@@ -24,7 +24,7 @@ type AgentsTableProps = {
 export const AgentsTable = memo(({ data, sortBy, sortDirection, setSort }: AgentsTableProps) => {
 	const t = useTranslation();
 
-	const onHeaderClick = useMutableCallback((id) => {
+	const onHeaderClick = useEffectEvent((id) => {
 		setSort(id, sortDirection === 'asc' ? 'desc' : 'asc');
 	});
 

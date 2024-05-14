@@ -1,6 +1,6 @@
 import { LivechatPriorityWeight } from '@rocket.chat/core-typings';
 import type { Menu } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useEndpoint, useTranslation } from '@rocket.chat/ui-contexts';
 import { useQueryClient } from '@tanstack/react-query';
 import type { ComponentProps } from 'react';
@@ -17,7 +17,7 @@ export const useOmnichannelPrioritiesMenu = (rid: string): ComponentProps<typeof
 	const removeRoomPriority = useEndpoint('DELETE', '/v1/livechat/room/:rid/priority', { rid });
 	const { data: priorities } = useOmnichannelPriorities();
 
-	const handlePriorityChange = useMutableCallback((priorityId: string) => async () => {
+	const handlePriorityChange = useEffectEvent((priorityId: string) => async () => {
 		try {
 			priorityId ? await updateRoomPriority({ priorityId }) : await removeRoomPriority();
 			queryClient.invalidateQueries(['current-chats']);

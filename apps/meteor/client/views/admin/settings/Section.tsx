@@ -1,6 +1,6 @@
 import { isSetting, isSettingColor } from '@rocket.chat/core-typings';
 import { Accordion, Box, Button, FieldGroup } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import type { TranslationKey } from '@rocket.chat/ui-contexts';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 import type { ReactElement, ReactNode } from 'react';
@@ -41,7 +41,7 @@ function Section({ groupId, hasReset = true, sectionName, tabName = '', solo, he
 
 	const dispatch = useEditableSettingsDispatch();
 
-	const reset = useMutableCallback(() => {
+	const reset = useEffectEvent(() => {
 		dispatch(
 			editableSettings
 				.filter(({ disabled }) => !disabled)

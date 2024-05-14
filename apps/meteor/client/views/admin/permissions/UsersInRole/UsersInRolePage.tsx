@@ -1,6 +1,6 @@
 import type { IRole, IRoom } from '@rocket.chat/core-typings';
 import { Box, Field, FieldLabel, FieldRow, Margins, ButtonGroup, Button, Callout } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useToastMessageDispatch, useRoute, useEndpoint, useTranslation } from '@rocket.chat/ui-contexts';
 import type { ReactElement } from 'react';
 import React, { useRef } from 'react';
@@ -35,14 +35,14 @@ const UsersInRolePage = ({ role }: { role: IRole }): ReactElement => {
 
 	const rid = getValues('rid');
 
-	const handleReturn = useMutableCallback(() => {
+	const handleReturn = useEffectEvent(() => {
 		router.push({
 			context: 'edit',
 			_id,
 		});
 	});
 
-	const handleAdd = useMutableCallback(async ({ users, rid }: UsersInRolePayload) => {
+	const handleAdd = useEffectEvent(async ({ users, rid }: UsersInRolePayload) => {
 		try {
 			await Promise.all(
 				users.map(async (user) => {

@@ -20,7 +20,7 @@ import {
 	Callout,
 } from '@rocket.chat/fuselage';
 import type { SelectOption } from '@rocket.chat/fuselage';
-import { useUniqueId, useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useUniqueId, useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { CustomFieldsForm } from '@rocket.chat/ui-client';
 import {
 	useAccountsCustomFields,
@@ -144,7 +144,7 @@ const UserForm = ({ userData, onReload, ...props }: AdminUserFormProps) => {
 		},
 	});
 
-	const handleSaveUser = useMutableCallback(async (userFormPayload) => {
+	const handleSaveUser = useEffectEvent(async (userFormPayload) => {
 		const { avatar, ...userFormData } = userFormPayload;
 		if (userData?._id) {
 			return handleUpdateUser.mutateAsync({ userId: userData?._id, data: userFormData });

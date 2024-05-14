@@ -1,4 +1,4 @@
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { type Chart } from 'chart.js';
 import { type TFunction } from 'i18next';
 import { type RefObject } from 'react';
@@ -13,7 +13,7 @@ type UseUpdateChartDataOptions = {
 };
 
 export const useUpdateChartData = ({ context: contextRef, canvas: canvasRef, init, t }: UseUpdateChartDataOptions) =>
-	useMutableCallback(async (label: string, data: { [x: string]: number }) => {
+	useEffectEvent(async (label: string, data: { [x: string]: number }) => {
 		const canvas = canvasRef.current;
 
 		if (!canvas) {

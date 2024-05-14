@@ -1,5 +1,5 @@
 import { Pagination } from '@rocket.chat/fuselage';
-import { useDebouncedValue, useMediaQuery, useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useDebouncedValue, useMediaQuery, useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 import { hashQueryKey } from '@tanstack/react-query';
 import React, { useMemo, useState } from 'react';
@@ -40,7 +40,7 @@ const AgentsTable = () => {
 	const [defaultQuery] = useState(hashQueryKey([query]));
 	const queryHasChanged = defaultQuery !== hashQueryKey([query]);
 
-	const onHeaderClick = useMutableCallback((id) => {
+	const onHeaderClick = useEffectEvent((id) => {
 		if (sortBy === id) {
 			setSort(id, sortDirection === 'asc' ? 'desc' : 'asc');
 			return;

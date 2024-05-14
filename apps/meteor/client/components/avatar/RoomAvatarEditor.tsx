@@ -2,7 +2,7 @@ import { isRoomFederated } from '@rocket.chat/core-typings';
 import type { IRoom, RoomAdminFieldsType } from '@rocket.chat/core-typings';
 import { css } from '@rocket.chat/css-in-js';
 import { Box, Button, ButtonGroup } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { RoomAvatar } from '@rocket.chat/ui-avatar';
 import { useToastMessageDispatch, useTranslation } from '@rocket.chat/ui-contexts';
 import type { ReactElement } from 'react';
@@ -23,7 +23,7 @@ const RoomAvatarEditor = ({ disabled = false, room, roomAvatar, onChangeAvatar }
 	const t = useTranslation();
 	const dispatchToastMessage = useToastMessageDispatch();
 
-	const handleChangeAvatar = useMutableCallback(async (file) => {
+	const handleChangeAvatar = useEffectEvent(async (file) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onloadend = async (): Promise<void> => {
@@ -37,7 +37,7 @@ const RoomAvatarEditor = ({ disabled = false, room, roomAvatar, onChangeAvatar }
 	});
 
 	const [clickUpload, reset] = useSingleFileInput(handleChangeAvatar);
-	const clickReset = useMutableCallback(() => {
+	const clickReset = useEffectEvent(() => {
 		reset();
 		onChangeAvatar(null);
 	});

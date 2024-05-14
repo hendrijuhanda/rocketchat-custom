@@ -1,6 +1,6 @@
 import type { IOmnichannelRoom, ILivechatDepartment } from '@rocket.chat/core-typings';
 import { Tag, Box, Pagination, States, StatesIcon, StatesTitle, StatesActions, StatesAction } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useRoute, useTranslation, useUserId } from '@rocket.chat/ui-contexts';
 import { hashQueryKey } from '@tanstack/react-query';
 import moment from 'moment';
@@ -42,7 +42,7 @@ const ChatTable = () => {
 		[sortBy, current, sortDirection, itemsPerPage, userIdLoggedIn, text],
 	);
 
-	const onRowClick = useMutableCallback((id) =>
+	const onRowClick = useEffectEvent((id) =>
 		directoryRoute.push({
 			page: 'chats',
 			bar: 'info',

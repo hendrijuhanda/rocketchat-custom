@@ -1,5 +1,5 @@
 import { Box, Margins, ButtonGroup, Button, Divider } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { UserAvatar } from '@rocket.chat/ui-avatar';
 import type { RouteName } from '@rocket.chat/ui-contexts';
 import { useToastMessageDispatch, useRoute, useTranslation, useEndpoint, usePermission, useRouter } from '@rocket.chat/ui-contexts';
@@ -57,7 +57,7 @@ const ContactInfo = ({ id: contactId, rid: roomId = '', route }: ContactInfoProp
 		enabled: canViewCustomFields && !!contactId,
 	});
 
-	const onEditButtonClick = useMutableCallback(() => {
+	const onEditButtonClick = useEffectEvent(() => {
 		if (!canEditContact) {
 			return dispatchToastMessage({ type: 'error', message: t('Not_authorized') });
 		}

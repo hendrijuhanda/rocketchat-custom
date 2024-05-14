@@ -19,8 +19,10 @@ const container = createContainer();
 
 const root = createRoot(container);
 
+StrictMode;
+
 root.render(
-	<StrictMode>
+	<>
 		<AppRoot />
-	</StrictMode>,
+	</>,
 );

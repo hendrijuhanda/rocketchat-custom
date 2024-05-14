@@ -1,6 +1,6 @@
 import type { IUserInRole } from '@rocket.chat/core-typings';
 import { Box, Button, Icon } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { UserAvatar } from '@rocket.chat/ui-avatar';
 import type { ReactElement } from 'react';
 import React, { memo } from 'react';
@@ -17,7 +17,7 @@ const UsersInRoleTableRow = ({ user, onRemove }: UsersInRoleTableRowProps): Reac
 	const { _id, name, username, avatarETag } = user;
 	const email = getUserEmailAddress(user);
 
-	const handleRemove = useMutableCallback(() => {
+	const handleRemove = useEffectEvent(() => {
 		onRemove(username);
 	});
 

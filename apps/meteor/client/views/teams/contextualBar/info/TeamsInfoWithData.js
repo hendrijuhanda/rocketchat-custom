@@ -1,4 +1,4 @@
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import {
 	useSetModal,
 	useToastMessageDispatch,
@@ -54,7 +54,7 @@ const TeamsInfoWithLogic = ({ openEditing }) => {
 
 	const dispatchToastMessage = useToastMessageDispatch();
 	const setModal = useSetModal();
-	const closeModal = useMutableCallback(() => setModal());
+	const closeModal = useEffectEvent(() => setModal());
 
 	const leaveTeam = useEndpointAction('POST', '/v1/teams.leave');
 	const convertTeamToChannel = useEndpointAction('POST', '/v1/teams.convertToChannel');
@@ -69,7 +69,7 @@ const TeamsInfoWithLogic = ({ openEditing }) => {
 
 	const { handleDelete, canDeleteRoom } = useDeleteRoom(room);
 
-	const onClickLeave = useMutableCallback(() => {
+	const onClickLeave = useEffectEvent(() => {
 		const onConfirm = async (roomsLeft) => {
 			roomsLeft = Object.keys(roomsLeft);
 			const roomsToLeave = Array.isArray(roomsLeft) && roomsLeft.length > 0 ? roomsLeft : [];
@@ -91,7 +91,7 @@ const TeamsInfoWithLogic = ({ openEditing }) => {
 		setModal(<LeaveTeam onConfirm={onConfirm} onCancel={closeModal} teamId={room.teamId} />);
 	});
 
-	const handleHide = useMutableCallback(async () => {
+	const handleHide = useEffectEvent(async () => {
 		const hide = async () => {
 			try {
 				await hideTeam(room._id);
@@ -129,7 +129,7 @@ const TeamsInfoWithLogic = ({ openEditing }) => {
 
 	const onClickViewChannels = useCallback(() => openTab('team-channels'), [openTab]);
 
-	const onClickConvertToChannel = useMutableCallback(() => {
+	const onClickConvertToChannel = useEffectEvent(() => {
 		const onConfirm = async (roomsToRemove) => {
 			try {
 				await convertTeamToChannel({

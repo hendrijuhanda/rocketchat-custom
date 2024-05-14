@@ -1,5 +1,5 @@
 import { Box, Select, Margins, Option } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 import React, { useRef, useState, useMemo, useEffect, Fragment } from 'react';
 
@@ -43,7 +43,7 @@ const RealTimeMonitoringPage = () => {
 		[departmentParams],
 	);
 
-	const reloadCharts = useMutableCallback(() => {
+	const reloadCharts = useEffectEvent(() => {
 		Object.values(reloadRef.current).forEach((reload) => {
 			reload();
 		});
@@ -86,7 +86,7 @@ const RealTimeMonitoringPage = () => {
 						</Box>
 						<Box maxWidth='50%' display='flex' mi={4} flexGrow={1} flexDirection='column'>
 							<Label mb={4}>{t('Update_every')}</Label>
-							<Select options={reloadOptions} onChange={useMutableCallback((val) => setReloadFrequency(val))} value={reloadFrequency} />
+							<Select options={reloadOptions} onChange={useEffectEvent((val) => setReloadFrequency(val))} value={reloadFrequency} />
 						</Box>
 					</Box>
 					<Box display='flex' flexDirection='row' w='full' alignItems='stretch' flexShrink={1}>

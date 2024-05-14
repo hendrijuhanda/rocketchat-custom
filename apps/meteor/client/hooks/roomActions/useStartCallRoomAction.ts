@@ -1,5 +1,5 @@
 import { isRoomFederated } from '@rocket.chat/core-typings';
-import { useStableArray, useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useStableArray, useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useSetting, useUser, usePermission } from '@rocket.chat/ui-contexts';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,7 +50,7 @@ export const useStartCallRoomAction = () => {
 
 	const allowed = enabled && permittedToCallManagement && (!user?.username || !room.muted?.includes(user.username)) && !ownUser;
 
-	const handleOpenVideoConf = useMutableCallback(async () => {
+	const handleOpenVideoConf = useEffectEvent(async () => {
 		if (isCalling || isRinging) {
 			return;
 		}

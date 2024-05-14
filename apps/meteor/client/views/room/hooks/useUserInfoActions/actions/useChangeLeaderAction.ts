@@ -1,5 +1,5 @@
 import type { IRoom, IUser } from '@rocket.chat/core-typings';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useTranslation, usePermission, useUserRoom, useUserSubscription } from '@rocket.chat/ui-contexts';
 import { useMemo } from 'react';
 
@@ -28,7 +28,7 @@ export const useChangeLeaderAction = (user: Pick<IUser, '_id' | 'username'>, rid
 	const changeLeader = useEndpointAction('POST', `${endpointPrefix}.${changeLeaderEndpoint}`, {
 		successMessage: t(changeLeaderMessage, { username: user.username, role: 'leader' }),
 	});
-	const changeLeaderAction = useMutableCallback(() => changeLeader({ roomId: rid, userId: uid }));
+	const changeLeaderAction = useEffectEvent(() => changeLeader({ roomId: rid, userId: uid }));
 	const changeLeaderOption = useMemo(
 		() =>
 			roomCanSetLeader && userCanSetLeader

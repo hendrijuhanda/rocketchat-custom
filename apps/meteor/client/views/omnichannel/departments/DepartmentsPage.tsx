@@ -1,5 +1,5 @@
 import { Tabs, Button } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useRoute, useTranslation, useRouteParameter } from '@rocket.chat/ui-contexts';
 import React from 'react';
 
@@ -15,13 +15,13 @@ const DepartmentsPage = () => {
 	const context = useRouteParameter('context');
 	const id = useRouteParameter('id');
 
-	const handleTabClick = useMutableCallback((tab) =>
+	const handleTabClick = useEffectEvent((tab) =>
 		departmentsRoute.push({
 			context: tab,
 		}),
 	);
 
-	const onAddNew = useMutableCallback(() =>
+	const onAddNew = useEffectEvent(() =>
 		departmentsRoute.push({
 			context: 'new',
 		}),

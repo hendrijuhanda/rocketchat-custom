@@ -1,5 +1,5 @@
 import { Sidebar } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useLayout, useRoute, usePermission, useTranslation } from '@rocket.chat/ui-contexts';
 import React, { memo } from 'react';
 
@@ -21,7 +21,7 @@ const OmnichannelSection = () => {
 	const queueListRoute = useRoute('livechat-queue');
 	const isWorkspaceOverMacLimit = useIsOverMacLimit();
 
-	const handleRoute = useMutableCallback((route) => {
+	const handleRoute = useEffectEvent((route) => {
 		sidebar.toggle();
 
 		switch (route) {

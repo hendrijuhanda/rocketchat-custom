@@ -1,5 +1,5 @@
 import { TextInput } from '@rocket.chat/fuselage';
-import { useMutableCallback, useDebouncedValue } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent, useDebouncedValue } from '@rocket.chat/fuselage-hooks';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 import type { ReactElement } from 'react';
 import React, { useState, useEffect } from 'react';
@@ -13,7 +13,7 @@ const PermissionsTableFilter = ({ onChange }: { onChange: (debouncedFilter: stri
 		onChange(debouncedFilter);
 	}, [debouncedFilter, onChange]);
 
-	const handleFilter = useMutableCallback(({ currentTarget: { value } }) => {
+	const handleFilter = useEffectEvent(({ currentTarget: { value } }) => {
 		setFilter(value);
 	});
 

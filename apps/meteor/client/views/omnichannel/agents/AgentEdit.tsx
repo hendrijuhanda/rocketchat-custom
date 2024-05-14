@@ -15,7 +15,7 @@ import {
 	CheckOption,
 } from '@rocket.chat/fuselage';
 import type { SelectOption } from '@rocket.chat/fuselage';
-import { useMutableCallback, useUniqueId } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent, useUniqueId } from '@rocket.chat/fuselage-hooks';
 import { useToastMessageDispatch, useSetting, useMethod, useTranslation, useEndpoint, useRouter } from '@rocket.chat/ui-contexts';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
@@ -92,7 +92,7 @@ const AgentEdit = ({ agentData, userDepartments, availableDepartments }: AgentEd
 	const saveAgentInfo = useMethod('livechat:saveAgentInfo');
 	const saveAgentStatus = useEndpoint('POST', '/v1/livechat/agent.status');
 
-	const handleSave = useMutableCallback(async ({ status, departments, ...data }) => {
+	const handleSave = useEffectEvent(async ({ status, departments, ...data }) => {
 		try {
 			await saveAgentStatus({ agentId: agentData._id, status });
 			await saveAgentInfo(agentData._id, data, departments);

@@ -1,4 +1,4 @@
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import type { AdminInfoPage } from '@rocket.chat/onboarding-ui';
 import {
 	useToastMessageDispatch,
@@ -158,7 +158,7 @@ const SetupWizardProvider = ({ children }: { children: ReactElement }): ReactEle
 		[dispatchSettings],
 	);
 
-	const registerServer: HandleRegisterServer = useMutableCallback(async ({ email, resend = false }): Promise<void> => {
+	const registerServer: HandleRegisterServer = useEffectEvent(async ({ email, resend = false }): Promise<void> => {
 		try {
 			const { intentData } = await createRegistrationIntent({ resend, email });
 			invalidateLicenseQuery(100);
@@ -176,7 +176,7 @@ const SetupWizardProvider = ({ children }: { children: ReactElement }): ReactEle
 		}
 	});
 
-	const completeSetupWizard = useMutableCallback(async (): Promise<void> => {
+	const completeSetupWizard = useEffectEvent(async (): Promise<void> => {
 		dispatchToastMessage({ type: 'success', message: t('Your_workspace_is_ready') });
 		return setShowSetupWizard('completed');
 	});

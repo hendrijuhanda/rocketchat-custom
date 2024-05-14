@@ -1,5 +1,5 @@
 import type { IRoom } from '@rocket.chat/core-typings';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import type { TranslationKey } from '@rocket.chat/ui-contexts';
 import { useSetModal, useToastMessageDispatch, useMethod, useTranslation, useRouter } from '@rocket.chat/ui-contexts';
 import React from 'react';
@@ -15,7 +15,7 @@ export const useRoomHide = (room: IRoom) => {
 	const hideRoom = useMethod('hideRoom');
 	const router = useRouter();
 
-	const handleHide = useMutableCallback(async () => {
+	const handleHide = useEffectEvent(async () => {
 		const hide = async () => {
 			try {
 				await hideRoom(room._id);

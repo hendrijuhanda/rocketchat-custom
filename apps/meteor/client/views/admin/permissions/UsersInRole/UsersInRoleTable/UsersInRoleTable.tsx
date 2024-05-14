@@ -1,6 +1,6 @@
 import type { IRole, IRoom, IUserInRole } from '@rocket.chat/core-typings';
 import { Pagination } from '@rocket.chat/fuselage';
-import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
+import { useEffectEvent } from '@rocket.chat/fuselage-hooks';
 import { useSetModal, useToastMessageDispatch, useEndpoint, useTranslation } from '@rocket.chat/ui-contexts';
 import type { ReactElement } from 'react';
 import React from 'react';
@@ -41,7 +41,7 @@ const UsersInRoleTable = ({
 
 	const closeModal = (): void => setModal();
 
-	const handleRemove = useMutableCallback((username) => {
+	const handleRemove = useEffectEvent((username) => {
 		const remove = async (): Promise<void> => {
 			try {
 				await removeUser({ roleId, username, scope: rid });
