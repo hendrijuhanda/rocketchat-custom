@@ -12,7 +12,7 @@ type CondensedProps = {
 	actions?: ReactElement;
 	href?: string;
 	unread?: boolean;
-	menu?: () => ReactElement;
+	menu?: ReactElement;
 	menuOptions?: any;
 	selected?: boolean;
 	badges?: ReactElement;
@@ -44,7 +44,7 @@ const Condensed: FC<CondensedProps> = ({ icon, title = '', avatar, actions, href
 				{badges && <Sidebar.Item.Badge>{badges}</Sidebar.Item.Badge>}
 				{menu && (
 					<Sidebar.Item.Menu {...handleMenuEvent}>
-						{menuVisibility ? menu() : <IconButton tabIndex={-1} aria-hidden mini rcx-sidebar-item__menu icon='kebab' />}
+						{menuVisibility ? menu : <IconButton tabIndex={-1} aria-hidden mini rcx-sidebar-item__menu icon='kebab' />}
 					</Sidebar.Item.Menu>
 				)}
 			</Sidebar.Item.Content>
