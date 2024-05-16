@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ModalContext } from '@rocket.chat/ui-contexts';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import React from 'react';
 

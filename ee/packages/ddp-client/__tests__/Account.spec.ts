@@ -5,7 +5,7 @@ import { handleConnection, handleMethod } from './helpers';
 
 let server: WS;
 
-beforeEach(async () => {
+beforeEach(() => {
 	server = new WS('ws://localhost:1234/websocket');
 });
 
@@ -30,7 +30,7 @@ describe('login', () => {
 
 		const { user } = sdk.account;
 		expect(user?.token).toBe(messageResult.token);
-		expect((user?.tokenExpires as Date)?.toISOString()).toBe(new Date(messageResult.tokenExpires.$date).toISOString());
+		expect(user?.tokenExpires?.toISOString()).toBe(new Date(messageResult.tokenExpires.$date).toISOString());
 		expect(user?.id).toBe(messageResult.id);
 	});
 

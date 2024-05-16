@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 

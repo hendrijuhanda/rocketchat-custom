@@ -1,5 +1,5 @@
 import { mockAppRoot } from '@rocket.chat/mock-providers';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import { useFeaturePreview } from './useFeaturePreview';
 
@@ -8,7 +8,7 @@ it('should return false if featurePreviewEnabled is false', () => {
 		wrapper: mockAppRoot().withSetting('Accounts_AllowFeaturePreview', false).build(),
 	});
 
-	expect(result.all[0]).toBe(false);
+	expect(result.current).toBe(false);
 });
 
 // TODO: fix this test
@@ -20,7 +20,7 @@ it('should return false if featurePreviewEnabled is true but feature is not in u
 			.build(),
 	});
 
-	expect(result.all[0]).toBe(false);
+	expect(result.current).toBe(false);
 });
 
 it('should return true if featurePreviewEnabled is true and feature is in userPreferences', () => {
@@ -31,7 +31,7 @@ it('should return true if featurePreviewEnabled is true and feature is in userPr
 			.build(),
 	});
 
-	expect(result.all[0]).toBe(true);
+	expect(result.current).toBe(true);
 });
 
 it('should return false for disabled features', () => {

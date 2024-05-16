@@ -28,8 +28,5 @@ export default {
     '\\.css$': 'identity-obj-proxy',
     '^react($|/.+)': '<rootDir>/../../node_modules/react$1',
   },
-  setupFilesAfterEnv: [
-    '@testing-library/jest-dom/extend-expect',
-    '<rootDir>/jest.setup.ts',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

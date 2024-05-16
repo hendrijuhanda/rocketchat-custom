@@ -1,10 +1,10 @@
 import { mockAppRoot } from '@rocket.chat/mock-providers';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 
 import { useAuditItems } from './useAuditItems';
 
 it('should return an empty array if doesn`t have license', async () => {
-	const { result, waitFor } = renderHook(() => useAuditItems(), {
+	const { result } = renderHook(() => useAuditItems(), {
 		wrapper: mockAppRoot()
 			.withEndpoint('GET', '/v1/licenses.info', () => ({
 				// @ts-expect-error: just for testing
@@ -18,13 +18,13 @@ it('should return an empty array if doesn`t have license', async () => {
 			.build(),
 	});
 
-	await waitFor(() => result.all.length > 1);
+	await waitFor(() => result.current.length > 1);
 
 	expect(result.current).toEqual([]);
 });
 
 it('should return an empty array if have license and not have permissions', async () => {
-	const { result, waitFor } = renderHook(() => useAuditItems(), {
+	const { result } = renderHook(() => useAuditItems(), {
 		wrapper: mockAppRoot()
 			.withEndpoint('GET', '/v1/licenses.info', () => ({
 				license: {
@@ -41,13 +41,13 @@ it('should return an empty array if have license and not have permissions', asyn
 			.build(),
 	});
 
-	await waitFor(() => result.all.length > 1);
+	await waitFor(() => result.current.length > 1);
 
 	expect(result.current).toEqual([]);
 });
 
 it('should return auditItems if have license and permissions', async () => {
-	const { result, waitFor } = renderHook(() => useAuditItems(), {
+	const { result } = renderHook(() => useAuditItems(), {
 		wrapper: mockAppRoot()
 			.withEndpoint('GET', '/v1/licenses.info', () => ({
 				license: {
@@ -81,7 +81,7 @@ it('should return auditItems if have license and permissions', async () => {
 });
 
 it('should return auditMessages item if have license and can-audit permission', async () => {
-	const { result, waitFor } = renderHook(() => useAuditItems(), {
+	const { result } = renderHook(() => useAuditItems(), {
 		wrapper: mockAppRoot()
 			.withEndpoint('GET', '/v1/licenses.info', () => ({
 				license: {
@@ -108,7 +108,7 @@ it('should return auditMessages item if have license and can-audit permission', 
 });
 
 it('should return audiLogs item if have license and can-audit-log permission', async () => {
-	const { result, waitFor } = renderHook(() => useAuditItems(), {
+	const { result } = renderHook(() => useAuditItems(), {
 		wrapper: mockAppRoot()
 			.withEndpoint('GET', '/v1/licenses.info', () => ({
 				license: {
