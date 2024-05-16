@@ -8,8 +8,6 @@ import { createAgent } from '../utils/omnichannel/agents';
 import { addAgentToDepartment, createDepartment } from '../utils/omnichannel/departments';
 import { test, expect } from '../utils/test';
 
-
-
 test.use({ storageState: Users.user1.state });
 
 test.describe('OC - Livechat - Department Flow', () => {
@@ -57,14 +55,13 @@ test.describe('OC - Livechat - Department Flow', () => {
 	});
 
 	test.afterAll(async ({ api }) => {
-		await expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: true })).status()).toBe(200);
+		expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: true })).status()).toBe(200);
 		await Promise.all([...agents.map((agent) => agent.delete())]);
 		await Promise.all([...departments.map((department) => department.delete())]);
-		await expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: false })).status()).toBe(200);
+		expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: false })).status()).toBe(200);
 	});
 
 	test('OC - Livechat - Chat with Department', async () => {
-
 		const guest = {
 			name: `${faker.person.firstName()} ${faker.string.nanoid(10)}}`,
 			email: faker.internet.email(),
@@ -92,11 +89,9 @@ test.describe('OC - Livechat - Department Flow', () => {
 	});
 
 	test('OC - Livechat - Change Department', async () => {
-		
 		const guest = {
 			name: `${faker.person.firstName()} ${faker.string.nanoid(10)}}`,
 			email: faker.internet.email(),
-		
 		};
 		await test.step('expect start Chat with department', async () => {
 			await poLiveChat.openAnyLiveChat();
@@ -133,7 +128,7 @@ test.describe('OC - Livechat - Department Flow', () => {
 
 			await expect(poLiveChat.livechatModalText('Are you sure you want to switch the department?')).toBeVisible();
 			await poLiveChat.btnYes.click();
-			
+
 			await expect(poLiveChat.livechatModal).toBeVisible();
 
 			await expect(poLiveChat.livechatModalText('Department switched')).toBeVisible();
@@ -143,7 +138,7 @@ test.describe('OC - Livechat - Department Flow', () => {
 			await expect(poLiveChat.page.locator('div >> text="this_a_test_message_from_user"')).toBeVisible();
 
 			// Expect user to have changed
-			await expect(await poLiveChat.headerTitle.textContent()).toEqual(agent2.username);
+			expect(await poLiveChat.headerTitle.textContent()).toEqual(agent2.username);
 
 			await poLiveChat.onlineAgentMessage.fill('this_a_test_message_from_user_to_department_2');
 			await poLiveChat.btnSendMessageToOnlineAgent.click();

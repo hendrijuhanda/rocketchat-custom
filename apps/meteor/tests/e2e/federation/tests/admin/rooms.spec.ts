@@ -55,7 +55,7 @@ test.describe.parallel('Federation - Admin Panel - Rooms', () => {
 	test('expect to have the 2 rooms(with the same name) created and showing correctly', async ({ page }) => {
 		await poFederationAdmin.inputSearchRooms.type(channelName);
 		await page.waitForTimeout(5000);
-		await expect(await page.locator(`table tbody tr`).count()).toBe(2);
+		expect(await page.locator(`table tbody tr`).count()).toBe(2);
 	});
 
 	test('expect to be able to edit only (name, topic and favorite) when the room is a federated one', async ({ page }) => {

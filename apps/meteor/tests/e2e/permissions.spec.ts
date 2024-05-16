@@ -23,7 +23,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowEditing', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option(edit) not be visible', async ({ page }) => {
@@ -42,7 +42,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowEditing', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -50,7 +50,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowDeleting', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option(delete) not be visible', async ({ page }) => {
@@ -70,7 +70,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowDeleting', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -80,7 +80,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowPinning', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option(pin) not be visible', async ({ page }) => {
@@ -96,7 +96,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowPinning', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -106,7 +106,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowStarring', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option(star) not be visible', async ({ page }) => {
@@ -125,7 +125,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowStarring', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -133,7 +133,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/FileUpload_Enabled', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option (upload file) not be visible', async () => {
@@ -144,7 +144,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/FileUpload_Enabled', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -152,7 +152,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AudioRecorderEnabled', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option (upload audio) not be visible', async () => {
@@ -163,7 +163,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AudioRecorderEnabled', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -171,7 +171,7 @@ test.describe.serial('permissions', () => {
 		test.beforeAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_VideoRecorderEnabled', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		test('expect option (upload video) not be visible', async () => {
@@ -182,7 +182,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_VideoRecorderEnabled', { value: true })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 
@@ -191,8 +191,8 @@ test.describe.serial('permissions', () => {
 			const statusCode1 = (await api.post('/settings/Message_AllowBadWordsFilter', { value: true })).status();
 			const statusCode2 = (await api.post('/settings/Message_BadWordsFilterList', { value: 'badword' })).status();
 
-			await expect(statusCode1).toBe(200);
-			await expect(statusCode2).toBe(200);
+			expect(statusCode1).toBe(200);
+			expect(statusCode2).toBe(200);
 		});
 
 		test('expect badword be censored', async () => {
@@ -205,7 +205,7 @@ test.describe.serial('permissions', () => {
 		test.afterAll(async ({ api }) => {
 			const statusCode = (await api.post('/settings/Message_AllowBadWordsFilter', { value: false })).status();
 
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 	});
 });

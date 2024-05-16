@@ -786,7 +786,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 				await poFederationChannelServer1.tabs.btnTabMembers.click();
 				await poFederationChannelServer1.tabs.members.showAllUsers();
 
-				await expect(await poFederationChannelServer2.sidenav.countRoomsByNameOnSearch(channelName)).toBe(2);
+				expect(await poFederationChannelServer2.sidenav.countRoomsByNameOnSearch(channelName)).toBe(2);
 
 				await pageForServer2.reload();
 				await poFederationChannelServer2.sidenav.openChatWhenHaveMultipleWithTheSameName(channelName, 1);
@@ -799,7 +799,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameFromServer2)).toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).toBeVisible();
-				await expect(await poFederationChannelServer2.getFederationServerName()).toBe(constants.RC_SERVER_1.matrixServerName);
+				expect(await poFederationChannelServer2.getFederationServerName()).toBe(constants.RC_SERVER_1.matrixServerName);
 				await pageForServer2.close();
 			});
 			// TODO: skipping this test until we have an extra server ready to test this.
@@ -988,14 +988,14 @@ test.describe.parallel('Federation - Channel Creation', () => {
 
 				await expect(poFederationChannelServer1.tabs.btnTabMembers).toBeVisible();
 				await poFederationChannelServer1.tabs.btnTabMembers.click();
-				await (await poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2)).hover();
-				await (await poFederationChannelServer1.tabs.members.getKebabMenuForUser(usernameWithDomainFromServer2)).click();
+				await poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2).hover();
+				await poFederationChannelServer1.tabs.members.getKebabMenuForUser(usernameWithDomainFromServer2).click();
 				await expect(await poFederationChannelServer1.tabs.members.getOptionFromKebabMenuForUser('removeUser')).toBeVisible();
 
 				await expect(poFederationChannelServer2.tabs.btnTabMembers).toBeVisible();
 				await poFederationChannelServer2.tabs.btnTabMembers.click();
-				await (await poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).hover();
-				await (await poFederationChannelServer2.tabs.members.getKebabMenuForUser(usernameWithDomainFromServer1)).click();
+				await poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1).hover();
+				await poFederationChannelServer2.tabs.members.getKebabMenuForUser(usernameWithDomainFromServer1).click();
 				await expect(await poFederationChannelServer2.tabs.members.getOptionFromKebabMenuForUser('removeUser')).not.toBeVisible();
 
 				await pageForServer2.close();
@@ -1033,13 +1033,13 @@ test.describe.parallel('Federation - Channel Creation', () => {
 
 				await expect(poFederationChannelServer1.tabs.btnTabMembers).toBeVisible();
 				await poFederationChannelServer1.tabs.btnTabMembers.click();
-				await (await poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2)).click();
+				await poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2).click();
 				await poFederationChannelServer1.tabs.members.btnMenuUserInfo.click();
 				await expect(poFederationChannelServer1.tabs.members.btnRemoveUserFromRoom).toBeVisible();
 
 				await expect(poFederationChannelServer2.tabs.btnTabMembers).toBeVisible();
 				await poFederationChannelServer2.tabs.btnTabMembers.click();
-				await (await poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).click();
+				await poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1).click();
 				await expect(poFederationChannelServer2.tabs.members.btnMenuUserInfo).not.toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.btnRemoveUserFromRoom).not.toBeVisible();
 
@@ -1168,7 +1168,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 				await expect(removedSystemMessageServer1).toBeVisible();
 				await expect(poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2)).not.toBeVisible();
 				await expect(poFederationChannelServer1.tabs.members.getUserInList(constants.RC_SERVER_1.username)).toBeVisible();
-				await expect(await (await poFederationChannelServer1.content.getLastSystemMessageName()).textContent()).toBe(
+				expect(await (await poFederationChannelServer1.content.getLastSystemMessageName()).textContent()).toBe(
 					constants.RC_SERVER_1.username,
 				);
 
@@ -1180,7 +1180,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 				await poFederationChannelServer2.tabs.btnTabMembers.click();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(userFromServer2UsernameOnly)).not.toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).toBeVisible();
-				await expect(await (await poFederationChannelServer2.content.getLastSystemMessageName()).textContent()).toBe(
+				expect(await (await poFederationChannelServer2.content.getLastSystemMessageName()).textContent()).toBe(
 					usernameWithDomainFromServer1,
 				);
 
@@ -1230,7 +1230,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 
 				const leftChannelSystemMessageServer1 = await poFederationChannelServer1.content.getSystemMessageByText('left the channel');
 				await expect(leftChannelSystemMessageServer1).toBeVisible();
-				await expect(await (await poFederationChannelServer1.content.getLastSystemMessageName()).textContent()).toBe(
+				expect(await (await poFederationChannelServer1.content.getLastSystemMessageName()).textContent()).toBe(
 					usernameWithDomainFromServer2,
 				);
 
@@ -1238,9 +1238,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 				await poFederationChannelServer2.sidenav.openChat(channelName);
 				const leftChannelSystemMessageServer2 = await poFederationChannelServer1.content.getSystemMessageByText('left the channel');
 				await expect(leftChannelSystemMessageServer2).toBeVisible();
-				await expect(await (await poFederationChannelServer2.content.getLastSystemMessageName()).textContent()).toBe(
-					userFromServer2UsernameOnly,
-				);
+				expect(await (await poFederationChannelServer2.content.getLastSystemMessageName()).textContent()).toBe(userFromServer2UsernameOnly);
 				await poFederationChannelServer2.tabs.btnTabMembers.click();
 				await poFederationChannelServer2.tabs.members.showAllUsers();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(userFromServer2UsernameOnly)).not.toBeVisible();
@@ -1350,7 +1348,7 @@ test.describe.parallel('Federation - Channel Creation', () => {
 				await createChannelUsingAPI(apiServer2, channelName);
 				await poFederationChannelServer1.createPublicChannelAndInviteUsersUsingCreationModal(channelName, [fullUsernameFromServer2]);
 
-				await expect(await poFederationChannelServer2.sidenav.countFilteredChannelsOnDirectory(channelName)).toBe(2);
+				expect(await poFederationChannelServer2.sidenav.countFilteredChannelsOnDirectory(channelName)).toBe(2);
 				await pageForServer2.close();
 			});
 		});

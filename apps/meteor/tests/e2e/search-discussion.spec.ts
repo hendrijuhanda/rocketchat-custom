@@ -33,7 +33,7 @@ test.describe.serial('search-discussion', () => {
 		await poHomeChannel.sidenav.inputSearch.type(discussionName);
 		const targetSearchItem = page.locator('role=listbox').getByText(discussionName).first();
 		await expect(targetSearchItem).toBeVisible();
-	}
+	};
 
 	test('expect search discussion to show fname when UI_Allow_room_names_with_special_chars=true', async ({ page, api }) => {
 		await setSettingValueById(api, 'UI_Allow_room_names_with_special_chars', true);

@@ -25,7 +25,7 @@ test.describe.parallel('administration', () => {
 		test('expect download info as JSON', async ({ page }) => {
 			const [download] = await Promise.all([page.waitForEvent('download'), page.locator('button:has-text("Download info")').click()]);
 
-			await expect(download.suggestedFilename()).toBe('statistics.json');
+			expect(download.suggestedFilename()).toBe('statistics.json');
 		});
 	});
 
@@ -208,23 +208,23 @@ test.describe.parallel('administration', () => {
 		test.describe('Users in role', () => {
 			const channelName = faker.string.uuid();
 			test.beforeAll(async ({ api }) => {
-				// TODO: refactor createChannel utility in order to get channel data when creating 
+				// TODO: refactor createChannel utility in order to get channel data when creating
 				const response = await api.post('/channels.create', { name: channelName, members: ['user1'] });
 				const { channel } = await response.json();
 
 				await api.post('/channels.addOwner', { roomId: channel._id, userId: Users.user1.data._id });
 				await api.post('/channels.removeOwner', { roomId: channel._id, userId: Users.admin.data._id });
-			})
+			});
 
 			test('admin should be able to get the owners of a room that wasnt created by him', async ({ page }) => {
 				await poAdmin.openRoleByName('Owner').click();
 				await poAdmin.btnUsersInRole.click();
 				await poAdmin.inputRoom.fill(channelName);
 				await page.getByRole('option', { name: channelName }).click();
-				
+
 				await expect(poAdmin.getUserRowByUsername('user1')).toBeVisible();
-			})
-		})
+			});
+		});
 	});
 
 	test.describe('Mailer', () => {
@@ -245,7 +245,7 @@ test.describe.parallel('administration', () => {
 			});
 
 			test.afterAll(async ({ api }) => {
-				await setSettingValueById(api, 'Language', 'en')
+				await setSettingValueById(api, 'Language', 'en');
 			});
 
 			test('expect be able to reset a setting after a change', async () => {

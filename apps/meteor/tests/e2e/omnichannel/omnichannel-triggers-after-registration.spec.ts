@@ -57,7 +57,7 @@ test.describe('OC - Livechat New Chat Triggers - After Registration', () => {
 	});
 
 	test.describe('OC - Livechat New Chat Triggers - After Registration', async () => {
-		await test('expect trigger message after registration', async () => {
+		test('expect trigger message after registration', async () => {
 			await poLiveChat.page.goto('/livechat');
 			await poLiveChat.sendMessageAndCloseChat(newUser);
 
@@ -72,14 +72,14 @@ test.describe('OC - Livechat New Chat Triggers - After Registration', () => {
 				await poLiveChat.page.goto('/livechat');
 				await poLiveChat.openAnyLiveChat();
 				await poLiveChat.sendMessage(newUser, false);
-				await expect(poLiveChat.txtChatMessage(triggerMessage)).toBeVisible();	
-			})
+				await expect(poLiveChat.txtChatMessage(triggerMessage)).toBeVisible();
+			});
 
 			await test.step('expect trigger message after registration to be visible after reload', async () => {
 				await poLiveChat.page.reload();
 				await poLiveChat.openAnyLiveChat();
-				await expect(poLiveChat.txtChatMessage(triggerMessage)).toBeVisible();	
-			})
+				await expect(poLiveChat.txtChatMessage(triggerMessage)).toBeVisible();
+			});
 
 			await test.step('expect to close room and reload', async () => {
 				await poLiveChat.onlineAgentMessage.type('message_after_trigger');
@@ -89,13 +89,13 @@ test.describe('OC - Livechat New Chat Triggers - After Registration', () => {
 
 				await expect(poLiveChat.btnNewChat).toBeVisible();
 				await poLiveChat.startNewChat();
-				await poLiveChat.page.reload()
-			})
+				await poLiveChat.page.reload();
+			});
 
 			await test.step('expect trigger message after registration to be visible after reload on new chat', async () => {
 				await poLiveChat.openAnyLiveChat();
 				await expect(poLiveChat.txtChatMessage(triggerMessage)).toBeVisible();
-			})
+			});
 		});
 	});
 
@@ -104,7 +104,7 @@ test.describe('OC - Livechat New Chat Triggers - After Registration', () => {
 			await api.post('/settings/Livechat_clear_local_storage_when_chat_ended', { value: true });
 		});
 
-		await test('expect trigger message after registration', async () => {
+		test('expect trigger message after registration', async () => {
 			await poLiveChat.page.goto('/livechat');
 			await poLiveChat.sendMessageAndCloseChat(newUser);
 

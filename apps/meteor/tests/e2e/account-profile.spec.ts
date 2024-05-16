@@ -21,7 +21,7 @@ test.describe.serial('settings-account-profile', () => {
 	test.describe('Profile', () => {
 		test.beforeEach(async ({ page }) => {
 			await page.goto('/account/profile');
-		})
+		});
 
 		test.skip('expect update profile with new name/username', async () => {
 			const newName = faker.person.fullName();
@@ -40,7 +40,7 @@ test.describe.serial('settings-account-profile', () => {
 			await poHomeChannel.content.linkUserCard.click();
 
 			await expect(poHomeChannel.tabs.userInfoUsername).toHaveText(newUsername);
-		})
+		});
 
 		test.describe('Avatar', () => {
 			test('should change avatar image by uploading file', async () => {
@@ -65,7 +65,7 @@ test.describe.serial('settings-account-profile', () => {
 				await poAccountProfile.btnSubmit.click();
 				await expect(poAccountProfile.userAvatarEditor).not.toHaveAttribute('src');
 			});
-		})
+		});
 	});
 
 	test.describe('Security', () => {
@@ -74,8 +74,8 @@ test.describe.serial('settings-account-profile', () => {
 
 			const results = await makeAxeBuilder().analyze();
 			expect(results.violations).toEqual([]);
-		})
-	})
+		});
+	});
 
 	test('Personal Access Tokens', async ({ page }) => {
 		const response = page.waitForResponse('**/api/v1/users.getPersonalAccessTokens');
@@ -120,8 +120,8 @@ test.describe.serial('settings-account-profile', () => {
 
 			const results = await makeAxeBuilder().analyze();
 			expect(results.violations).toEqual([]);
-		})
-	})
+		});
+	});
 
 	test.describe('Feature Preview', () => {
 		test('should not have any accessibility violations', async ({ page, makeAxeBuilder }) => {
@@ -129,8 +129,8 @@ test.describe.serial('settings-account-profile', () => {
 
 			const results = await makeAxeBuilder().analyze();
 			expect(results.violations).toEqual([]);
-		})
-	})
+		});
+	});
 
 	test.describe('Accessibility & Appearance', () => {
 		test('should not have any accessibility violations', async ({ page, makeAxeBuilder }) => {
@@ -138,8 +138,6 @@ test.describe.serial('settings-account-profile', () => {
 
 			const results = await makeAxeBuilder().analyze();
 			expect(results.violations).toEqual([]);
-		})
-	})
+		});
+	});
 });
-
-

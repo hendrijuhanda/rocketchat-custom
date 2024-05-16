@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 import { IS_EE } from '../config/constants';
 import { Users } from '../fixtures/userStates';
@@ -243,7 +243,7 @@ test.describe('OC - Manager Role', () => {
 
 		await test.step('expect not to be able to see current chats once role is removed', async () => {
 			const res = await manager.delete();
-			await expect(res.status()).toBe(200);
+			expect(res.status()).toBe(200);
 			await page.reload();
 			await expect(page.locator('p >> text="You are not authorized to view this page."')).toBeVisible();
 		});

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 import { IS_EE } from '../config/constants';
 import { Users } from '../fixtures/userStates';
@@ -36,7 +36,7 @@ test.describe('OC - Monitor Role', () => {
 			data: { roles: ['user'] },
 			userId: 'user3',
 		});
-		await expect(res.status()).toBe(200);
+		expect(res.status()).toBe(200);
 	});
 
 	// Allow manual on hold
@@ -248,28 +248,28 @@ test.describe('OC - Monitor Role', () => {
 
 		await test.step('expect not to be able to see conversations once unit is removed', async () => {
 			const res = await unitA.delete();
-			await expect(res.status()).toBe(200);
+			expect(res.status()).toBe(200);
 			await page.reload();
 			await expect(page.locator('text="No chats yet"')).toBeVisible();
 		});
 
 		await test.step('expect to be able to see all conversations once all units are removed', async () => {
 			const res = await unitB.delete();
-			await expect(res.status()).toBe(200);
+			expect(res.status()).toBe(200);
 			await page.reload();
 			await expect(poOmnichannel.currentChats.findRowByName(ROOM_D)).toBeVisible();
 		});
 
 		await test.step('expect not to be able to see current chats once role is removed', async () => {
 			const res = await monitor.delete();
-			await expect(res.status()).toBe(200);
+			expect(res.status()).toBe(200);
 			await page.reload();
 			await expect(page.locator('p >> text="You are not authorized to view this page."')).toBeVisible();
 		});
 
 		await test.step('expect monitor to be automaticaly removed from unit once monitor is removed', async () => {
 			const { data: monitors } = await fetchUnitMonitors(api, unitA.data._id);
-			await expect(monitors).toHaveLength(0);
+			expect(monitors).toHaveLength(0);
 		});
 	});
 });

@@ -63,36 +63,36 @@ test.describe('OC - Livechat - Message list background', async () => {
 		});
 
 		await test.step('expect message list to have default background', async () => {
-			await expect(await poLiveChat.messageListBackground).toBe('rgba(0, 0, 0, 0)');
+			expect(await poLiveChat.messageListBackground).toBe('rgba(0, 0, 0, 0)');
 		});
 
 		await test.step('expect to change message list background', async () => {
 			const res = await api.post('/settings/Livechat_background', { value: 'rgb(186, 1, 85)' });
-			await expect(res.status()).toBe(200);
+			expect(res.status()).toBe(200);
 
 			await page.reload();
 			await poLiveChat.openLiveChat();
-			await expect(await poLiveChat.messageListBackground).toBe('rgb(186, 1, 85)');
+			expect(await poLiveChat.messageListBackground).toBe('rgb(186, 1, 85)');
 		});
 
 		await test.step('expect to give priority to background provided via api', async () => {
 			await poLiveChat.page.evaluate(() => window.RocketChat.livechat.setTheme({ background: 'rgb(186, 218, 85)' }));
 
-			await expect(await poLiveChat.messageListBackground).toBe('rgb(186, 218, 85)');
+			expect(await poLiveChat.messageListBackground).toBe('rgb(186, 218, 85)');
 		});
 
 		await test.step('expect to fallback to setting if api background is not available', async () => {
 			await poLiveChat.page.evaluate(() => window.RocketChat.livechat.setTheme({ background: undefined }));
-			await expect(await poLiveChat.messageListBackground).toBe('rgb(186, 1, 85)');
+			expect(await poLiveChat.messageListBackground).toBe('rgb(186, 1, 85)');
 		});
 
 		await test.step('expect to reset message list background to default', async () => {
 			const res = await api.post('/settings/Livechat_background', { value: '' });
-			await expect(res.status()).toBe(200);
+			expect(res.status()).toBe(200);
 
 			await page.reload();
 			await poLiveChat.openLiveChat();
-			await expect(await poLiveChat.messageListBackground).toBe('rgba(0, 0, 0, 0)');
+			expect(await poLiveChat.messageListBackground).toBe('rgba(0, 0, 0, 0)');
 		});
 
 		await test.step('should close the conversation', async () => {

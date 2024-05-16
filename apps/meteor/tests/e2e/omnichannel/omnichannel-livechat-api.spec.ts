@@ -229,7 +229,7 @@ test.describe('OC - Livechat API', () => {
 
 			await addAgentToDepartment(api, { department: departmentA, agentId: agent.data._id });
 			await addAgentToDepartment(api, { department: departmentB, agentId: agent2.data._id });
-			await expect((await api.post('/settings/Livechat_offline_email', { value: 'test@testing.com' })).status()).toBe(200);
+			expect((await api.post('/settings/Livechat_offline_email', { value: 'test@testing.com' })).status()).toBe(200);
 		});
 
 		test.beforeEach(async ({ browser }, testInfo) => {
@@ -266,9 +266,9 @@ test.describe('OC - Livechat API', () => {
 			await agent.delete();
 			await agent2.delete();
 
-			await expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: true })).status()).toBe(200);
+			expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: true })).status()).toBe(200);
 			await Promise.all([...departments.map((department) => department.delete())]);
-			await expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: false })).status()).toBe(200);
+			expect((await api.post('/settings/Omnichannel_enable_department_removal', { value: false })).status()).toBe(200);
 		});
 
 		// clearBusinessUnit
@@ -431,7 +431,7 @@ test.describe('OC - Livechat API', () => {
 
 				await expect(poLiveChat.txtChatMessage('this_a_test_message_from_visitor_1')).toBeVisible();
 				// wait for load messages to happen
-				await page.waitForResponse(response => response.url().includes(`token=${registerGuestVisitor1.token}`));
+				await page.waitForResponse((response) => response.url().includes(`token=${registerGuestVisitor1.token}`));
 			});
 
 			await test.step('Expect registerGuest to create guest 2', async () => {
@@ -441,9 +441,12 @@ test.describe('OC - Livechat API', () => {
 				);
 
 				// wait for load messages to happen
-				await page.waitForResponse(response => response.url().includes(`token=${registerGuestVisitor2.token}`));
+				await page.waitForResponse((response) => response.url().includes(`token=${registerGuestVisitor2.token}`));
 
-				await poLiveChat.page.frameLocator('#rocketchat-iframe').getByText('this_a_test_message_from_visitor_1').waitFor({ state: 'hidden' });
+				await poLiveChat.page
+					.frameLocator('#rocketchat-iframe')
+					.getByText('this_a_test_message_from_visitor_1')
+					.waitFor({ state: 'hidden' });
 
 				await expect(poLiveChat.page.frameLocator('#rocketchat-iframe').getByText('Start Chat')).not.toBeVisible();
 
@@ -619,7 +622,7 @@ test.describe('OC - Livechat API', () => {
 
 		test.beforeAll(async ({ api }) => {
 			agent = await createAgent(api, 'user1');
-			await expect((await api.post('/settings/Livechat_offline_email', { value: 'test@testing.com' })).status()).toBe(200);
+			expect((await api.post('/settings/Livechat_offline_email', { value: 'test@testing.com' })).status()).toBe(200);
 		});
 
 		test.beforeEach(async ({ browser }, testInfo) => {

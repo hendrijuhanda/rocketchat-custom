@@ -66,7 +66,7 @@ test.describe.parallel('Federation - Admin Panel - Users', () => {
 		await poFederationAdmin.inputSearchUsers.type(usernameWithDomainFromServer2);
 		await page.locator(`table tr`).locator(`figure[data-username="${usernameWithDomainFromServer2}"]`).click();
 		await expect(poFederationAdmin.tabs.users.btnEdit).toBeDisabled();
-		const currentUrl = await page.url();
+		const currentUrl = page.url();
 		await page.goto(`${currentUrl.replace('info', 'edit')}`);
 		await expect(page.locator('.rcx-box.rcx-box--full.rcx-callout__wrapper')).toBeVisible();
 		await expect(

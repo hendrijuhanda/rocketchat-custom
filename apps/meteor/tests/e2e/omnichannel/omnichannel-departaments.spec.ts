@@ -23,13 +23,13 @@ test.describe('OC - Manage Departments', () => {
 	test.beforeAll(async ({ api }) => {
 		// turn on department removal
 		const statusCode = (await api.post('/settings/Omnichannel_enable_department_removal', { value: true })).status();
-		await expect(statusCode).toBe(200);
+		expect(statusCode).toBe(200);
 	});
 
 	test.afterAll(async ({ api }) => {
 		// turn off department removal
 		const statusCode = (await api.post('/settings/Omnichannel_enable_department_removal', { value: false })).status();
-		await expect(statusCode).toBe(200);
+		expect(statusCode).toBe(200);
 	});
 
 	test.beforeEach(async ({ page }: { page: Page }) => {
@@ -132,7 +132,7 @@ test.describe('OC - Manage Departments', () => {
 
 		await test.step('expect to delete department', async () => {
 			const deleteRes = await deleteDepartment(api, { id: department._id });
-			await expect(deleteRes.status()).toBe(200);
+			expect(deleteRes.status()).toBe(200);
 		});
 	});
 
@@ -171,7 +171,7 @@ test.describe('OC - Manage Departments', () => {
 
 		await test.step('expect to delete department', async () => {
 			const deleteRes = await deleteDepartment(api, { id: department._id });
-			await expect(deleteRes.status()).toBe(200);
+			expect(deleteRes.status()).toBe(200);
 		});
 	});
 
@@ -273,7 +273,7 @@ test.describe('OC - Manage Departments', () => {
 
 		await test.step('expect to disable department removal setting', async () => {
 			const statusCode = (await api.post('/settings/Omnichannel_enable_department_removal', { value: false })).status();
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		await test.step('expect not to be able to delete department', async () => {
@@ -284,12 +284,12 @@ test.describe('OC - Manage Departments', () => {
 
 		await test.step('expect to enable department removal setting', async () => {
 			const statusCode = (await api.post('/settings/Omnichannel_enable_department_removal', { value: true })).status();
-			await expect(statusCode).toBe(200);
+			expect(statusCode).toBe(200);
 		});
 
 		await test.step('expect to delete department', async () => {
 			const deleteRes = await deleteDepartment(api, { id: department._id });
-			await expect(deleteRes.status()).toBe(200);
+			expect(deleteRes.status()).toBe(200);
 		});
 	});
 });

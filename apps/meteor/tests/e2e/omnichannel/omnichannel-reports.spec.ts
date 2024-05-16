@@ -1,4 +1,4 @@
-import { Route } from '@playwright/test';
+import type { Route } from '@playwright/test';
 
 import { IS_EE } from '../config/constants';
 import { Users } from '../fixtures/userStates';
@@ -25,7 +25,7 @@ test.describe.serial('Omnichannel Reports', () => {
 			api.post('/livechat/users/agent', { username: 'user1' }),
 			api.post('/livechat/users/manager', { username: 'user1' }),
 		]);
-		await expect(requests.every((request) => request.status() === 200)).toBe(true);
+		expect(requests.every((request) => request.status() === 200)).toBe(true);
 	});
 
 	test.beforeEach(async ({ page }) => {

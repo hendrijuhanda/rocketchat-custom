@@ -254,10 +254,10 @@ test.describe.parallel('Federation - Group Messaging', () => {
 
 				await poFederationChannelServer1.content.sendAudioRecordedMessage();
 
-				await expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
 					'Audio record.mp3',
 				);
-				await expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
 					'Audio record.mp3',
 				);
 
@@ -274,10 +274,10 @@ test.describe.parallel('Federation - Group Messaging', () => {
 
 				await poFederationChannelServer2.content.sendAudioRecordedMessage();
 
-				await expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
 					'Audio record.mp3',
 				);
-				await expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Audio record.mp3')).innerText()).toEqual(
 					'Audio record.mp3',
 				);
 
@@ -296,12 +296,12 @@ test.describe.parallel('Federation - Group Messaging', () => {
 
 				await poFederationChannelServer1.content.sendVideoRecordedMessage();
 
-				await expect(
-					await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Video record.webm')).innerText(),
-				).toEqual('Video record.webm');
-				await expect(
-					await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Video record.webm')).innerText(),
-				).toEqual('Video record.webm');
+				expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Video record.webm')).innerText()).toEqual(
+					'Video record.webm',
+				);
+				expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Video record.webm')).innerText()).toEqual(
+					'Video record.webm',
+				);
 
 				await expect(poFederationChannelServer1.content.lastFileMessage.locator('video')).toBeVisible();
 				await expect(poFederationChannelServer2.content.lastFileMessage.locator('video')).toBeVisible();
@@ -318,12 +318,12 @@ test.describe.parallel('Federation - Group Messaging', () => {
 
 				await poFederationChannelServer2.content.sendVideoRecordedMessage();
 
-				await expect(
-					await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Video record.webm')).innerText(),
-				).toEqual('Video record.webm');
-				await expect(
-					await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Video record.webm')).innerText(),
-				).toEqual('Video record.webm');
+				expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('Video record.webm')).innerText()).toEqual(
+					'Video record.webm',
+				);
+				expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('Video record.webm')).innerText()).toEqual(
+					'Video record.webm',
+				);
 
 				await expect(poFederationChannelServer2.content.lastFileMessage.locator('video')).toBeVisible();
 				await expect(poFederationChannelServer1.content.lastFileMessage.locator('video')).toBeVisible();
@@ -367,10 +367,10 @@ test.describe.parallel('Federation - Group Messaging', () => {
 				await poFederationChannelServer1.content.sendFileMessage('test_video.mp4');
 				await poFederationChannelServer1.content.btnModalConfirm.click();
 
-				await expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
 					'test_video.mp4',
 				);
-				await expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
 					'test_video.mp4',
 				);
 
@@ -388,10 +388,10 @@ test.describe.parallel('Federation - Group Messaging', () => {
 				await poFederationChannelServer2.content.sendFileMessage('test_video.mp4');
 				await poFederationChannelServer2.content.btnModalConfirm.click();
 
-				await expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer2.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
 					'test_video.mp4',
 				);
-				await expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
+				expect(await (await poFederationChannelServer1.content.getLastFileMessageByFileName('test_video.mp4')).innerText()).toEqual(
 					'test_video.mp4',
 				);
 
@@ -632,16 +632,16 @@ test.describe.parallel('Federation - Group Messaging', () => {
 
 				let reactionsServer1 = await poFederationChannelServer1.content.getAllReactions();
 				let reactionListExcludingTheActionServer1 = (await reactionsServer1.count()) - 1;
-				const reactionsMap: any = {
-					0: {
+				const reactionsMap = [
+					{
 						emoji: '🙂',
 						count: '1',
 					},
-					1: {
+					{
 						emoji: '😁',
 						count: '1',
 					},
-				};
+				] as const;
 				for (let i = 0; i < reactionListExcludingTheActionServer1; i++) {
 					await expect(reactionsServer1.nth(i).locator('span.rcx-message-reactions__emoji.emojione')).toContainText(reactionsMap[i].emoji);
 					await expect(reactionsServer1.nth(i).locator('div.rcx-message-reactions__counter')).toContainText(reactionsMap[i].count);
@@ -659,12 +659,12 @@ test.describe.parallel('Federation - Group Messaging', () => {
 				reactionsServer1 = await poFederationChannelServer1.content.getAllReactions();
 				reactionListExcludingTheActionServer1 = (await reactionsServer1.count()) - 1;
 
-				const reactionsMapAfterUnreaction: any = {
-					0: {
+				const reactionsMapAfterUnreaction = [
+					{
 						emoji: '🙂',
 						count: '1',
 					},
-				};
+				] as const;
 				for (let i = 0; i < reactionListExcludingTheActionServer1; i++) {
 					await expect(reactionsServer1.nth(i).locator('span.rcx-message-reactions__emoji.emojione')).toContainText(
 						reactionsMapAfterUnreaction[i].emoji,
@@ -702,16 +702,16 @@ test.describe.parallel('Federation - Group Messaging', () => {
 
 				let reactionsServer2 = await poFederationChannelServer2.content.getAllReactions();
 				let reactionListExcludingTheActionServer2 = (await reactionsServer2.count()) - 1;
-				const reactionsMap: any = {
-					0: {
+				const reactionsMap = [
+					{
 						emoji: '🙂',
 						count: '1',
 					},
-					1: {
+					{
 						emoji: '😁',
 						count: '1',
 					},
-				};
+				] as const;
 				for (let i = 0; i < reactionListExcludingTheActionServer2; i++) {
 					await expect(reactionsServer2.nth(i).locator('span.rcx-message-reactions__emoji.emojione')).toContainText(reactionsMap[i].emoji);
 					await expect(reactionsServer2.nth(i).locator('div.rcx-message-reactions__counter')).toContainText(reactionsMap[i].count);
@@ -729,12 +729,12 @@ test.describe.parallel('Federation - Group Messaging', () => {
 				reactionsServer2 = await poFederationChannelServer2.content.getAllReactions();
 				reactionListExcludingTheActionServer2 = (await reactionsServer2.count()) - 1;
 
-				const reactionsMapAfterUnreaction: any = {
-					0: {
+				const reactionsMapAfterUnreaction = [
+					{
 						emoji: '🙂',
 						count: '1',
 					},
-				};
+				] as const;
 				for (let i = 0; i < reactionListExcludingTheActionServer2; i++) {
 					await expect(reactionsServer2.nth(i).locator('span.rcx-message-reactions__emoji.emojione')).toContainText(
 						reactionsMapAfterUnreaction[i].emoji,

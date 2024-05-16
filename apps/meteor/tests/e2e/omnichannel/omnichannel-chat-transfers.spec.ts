@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 import { IS_EE } from '../config/constants';
 import { createAuxContext } from '../fixtures/createAuxContext';
@@ -163,10 +163,8 @@ test.describe('OC - Chat transfers [Monitor role]', () => {
 
 		await test.step('expect user 1 to have left the conversation', async () => {
 			await agentB.poHomeOmnichannel.sidenav.getSidebarItemByName(roomA.fname).click();
-			await agentB.poHomeOmnichannel.content.findSystemMessage(
-				`Transfer: user3 transferred the chat to the department ${departmentB.name}}`,
-			);
-			await agentB.poHomeOmnichannel.content.findSystemMessage('left the channel');
+			agentB.poHomeOmnichannel.content.findSystemMessage(`Transfer: user3 transferred the chat to the department ${departmentB.name}}`);
+			agentB.poHomeOmnichannel.content.findSystemMessage('left the channel');
 		});
 	});
 
@@ -388,10 +386,8 @@ test.describe('OC - Chat transfers [Manager role]', () => {
 
 		await test.step('expect user 1 to have left the conversation', async () => {
 			await agentB.poHomeOmnichannel.sidenav.getSidebarItemByName(roomA.fname).click();
-			await agentB.poHomeOmnichannel.content.findSystemMessage(
-				`Transfer: user3 transferred the chat to the department ${departmentB.name}}`,
-			);
-			await agentB.poHomeOmnichannel.content.findSystemMessage('left the channel');
+			agentB.poHomeOmnichannel.content.findSystemMessage(`Transfer: user3 transferred the chat to the department ${departmentB.name}}`);
+			agentB.poHomeOmnichannel.content.findSystemMessage('left the channel');
 		});
 	});
 

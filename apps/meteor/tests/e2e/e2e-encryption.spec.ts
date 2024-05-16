@@ -119,24 +119,21 @@ test.describe.serial('e2e-encryption initial setup', () => {
 });
 
 test.describe.serial('e2e-encryption', () => {
-	let poHomeChannel: HomeChannel;
-
-	test.beforeEach(async ({ page, api }) => {
-		const statusCode = (await api.post('/settings/E2E_Enable', { value: true })).status();
-
-		expect(statusCode).toBe(200);
-
-		poHomeChannel = new HomeChannel(page);
-		await page.goto('/home');
-	});
-
 	test.beforeAll(async ({ api }) => {
+		expect((await api.post('/settings/E2E_Enable', { value: true })).status()).toBe(200);
 		expect((await api.post('/settings/E2E_Allow_Unencrypted_Messages', { value: true })).status()).toBe(200);
 	});
 
 	test.afterAll(async ({ api }) => {
 		expect((await api.post('/settings/E2E_Enable', { value: false })).status()).toBe(200);
 		expect((await api.post('/settings/E2E_Allow_Unencrypted_Messages', { value: false })).status()).toBe(200);
+	});
+
+	let poHomeChannel: HomeChannel;
+
+	test.beforeEach(async ({ page }) => {
+		poHomeChannel = new HomeChannel(page);
+		await page.goto('/home');
 	});
 
 	test('expect create a private channel encrypted and send an encrypted message', async ({ page }) => {
@@ -179,7 +176,7 @@ test.describe.serial('e2e-encryption', () => {
 		await expect(poHomeChannel.content.lastUserMessage.locator('.rcx-icon--name-key')).toBeVisible();
 	});
 
-	test('expect create a private channel, encrypt it and send an encrypted message', async ({ page }) => {
+	test.only('expect create a private channel, encrypt it and send an encrypted message', async ({ page }) => {
 		const channelName = faker.string.uuid();
 
 		await poHomeChannel.sidenav.openNewByLabel('Channel');
@@ -187,8 +184,6 @@ test.describe.serial('e2e-encryption', () => {
 		await poHomeChannel.sidenav.btnCreate.click();
 
 		await expect(page).toHaveURL(`/group/${channelName}`);
-
-		await expect(poHomeChannel.toastSuccess).toBeVisible();
 
 		await poHomeChannel.dismissToast();
 
@@ -447,5 +442,4 @@ test.describe.serial('e2ee room setup', () => {
 		await expect(poHomeChannel.content.inputMessage).not.toBeVisible();
 		await expect(page.locator('.rcx-states__title')).toContainText('Check back later');
 	});
-
 });

@@ -28,12 +28,12 @@ test.describe.serial('Image Gallery', async () => {
 	});
 
 	test.describe('When sending an image as a file', () => {
-		test.beforeAll(async() => {
+		test.beforeAll(async () => {
 			await poHomeChannel.content.sendFileMessage('test-large-image.jpeg');
 			await poHomeChannel.content.btnModalConfirm.click();
-	
+
 			await expect(poHomeChannel.content.lastUserMessage).toContainText('test-large-image.jpeg');
-	
+
 			await poHomeChannel.content.lastUserMessage.locator('img.gallery-item').click();
 		});
 
@@ -41,39 +41,39 @@ test.describe.serial('Image Gallery', async () => {
 			expect(
 				await poHomeChannel.content.imageGalleryImage.evaluate((el) => parseInt(window.getComputedStyle(el).getPropertyValue('width'))),
 			).toBeLessThanOrEqual(viewport.width);
-	
+
 			expect(
 				await poHomeChannel.content.imageGalleryImage.evaluate((el) => parseInt(window.getComputedStyle(el).getPropertyValue('height'))),
 			).toBeLessThanOrEqual(viewport.height);
 		});
-	
+
 		test('expect to zoom in image', async () => {
 			await (await poHomeChannel.content.getGalleryButtonByName('zoom-in')).click();
-	
+
 			expect(parseInt((await poHomeChannel.content.imageGalleryImage.getAttribute('data-qa-zoom-scale')) as string)).toBeGreaterThan(1);
 		});
-	
+
 		test('expect to zoom out image', async () => {
 			await (await poHomeChannel.content.getGalleryButtonByName('zoom-out')).click();
-	
+
 			expect(parseInt((await poHomeChannel.content.imageGalleryImage.getAttribute('data-qa-zoom-scale')) as string)).toEqual(1);
 		});
-	
+
 		test('expect to resize image to default ratio', async () => {
 			await expect(await poHomeChannel.content.getGalleryButtonByName('zoom-out')).toBeDisabled();
-	
+
 			await (await poHomeChannel.content.getGalleryButtonByName('zoom-in')).dblclick();
-	
+
 			await expect(await poHomeChannel.content.getGalleryButtonByName('zoom-out')).toBeEnabled();
-	
+
 			await (await poHomeChannel.content.getGalleryButtonByName('resize')).click();
-	
+
 			expect(parseInt((await poHomeChannel.content.imageGalleryImage.getAttribute('data-qa-zoom-scale')) as string)).toEqual(1);
 		});
-	
+
 		test('expect to close gallery', async () => {
 			await (await poHomeChannel.content.getGalleryButtonByName('close')).click();
-	
+
 			await expect(poHomeChannel.content.imageGalleryImage).not.toBeVisible();
 		});
 	});
@@ -81,11 +81,11 @@ test.describe.serial('Image Gallery', async () => {
 	test.describe('When sending an image as a link', () => {
 		const imageLink = 'https://i0.wp.com/merithu.com.br/wp-content/uploads/2019/11/rocket-chat.png';
 
-		test.beforeAll(async() => {
+		test.beforeAll(async () => {
 			await poHomeChannel.content.sendMessage(imageLink);
-	
+
 			await expect(poHomeChannel.content.lastUserMessage).toContainText(imageLink);
-	
+
 			await poHomeChannel.content.lastUserMessage.locator('img.preview-image').click();
 		});
 

@@ -2,7 +2,7 @@ import child_process from 'child_process';
 import path from 'path';
 
 import { faker } from '@faker-js/faker';
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import { v2 as compose } from 'docker-compose';
 import { MongoClient } from 'mongodb';
 
@@ -14,7 +14,8 @@ import { createCustomRole, deleteCustomRole } from './utils/custom-role';
 import { getUserInfo } from './utils/getUserInfo';
 import { parseMeteorResponse } from './utils/parseMeteorResponse';
 import { setSettingValueById } from './utils/setSettingValueById';
-import { test, expect, BaseTest } from './utils/test';
+import type { BaseTest } from './utils/test';
+import { test, expect } from './utils/test';
 
 const resetTestData = async (cleanupOnly = false) => {
 	// Reset saml users' data on mongo in the beforeAll hook to allow re-running the tests within the same playwright session
@@ -104,7 +105,7 @@ test.describe('SAML', () => {
 		await resetTestData();
 
 		// Only one setting updated through the API to avoid refreshing the service configurations several times
-		await expect((await setSettingValueById(api, 'SAML_Custom_Default', true)).status()).toBe(200);
+		expect((await setSettingValueById(api, 'SAML_Custom_Default', true)).status()).toBe(200);
 
 		// Create a new custom role
 		if (constants.IS_EE) {
@@ -196,7 +197,7 @@ test.describe('SAML', () => {
 		});
 	});
 
-	test('Allow password change for OAuth users', async ({  api }) => {
+	test('Allow password change for OAuth users', async ({ api }) => {
 		await test.step("should not send password reset mail if 'Allow Password Change for OAuth Users' setting is disabled", async () => {
 			expect((await setSettingValueById(api, 'Accounts_AllowPasswordChangeForOAuthUsers', false)).status()).toBe(200);
 
@@ -251,7 +252,7 @@ test.describe('SAML', () => {
 
 	test('Logout - Rocket.Chat only', async ({ page, api }) => {
 		await test.step('Configure logout to only logout from Rocket.Chat', async () => {
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_logout_behaviour', 'Local')).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_logout_behaviour', 'Local')).status()).toBe(200);
 		});
 
 		await page.goto('/home');
@@ -267,7 +268,7 @@ test.describe('SAML', () => {
 
 	test('Logout - Single Sign Out', async ({ page, api }) => {
 		await test.step('Configure logout to terminate SAML session', async () => {
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_logout_behaviour', 'SAML')).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_logout_behaviour', 'SAML')).status()).toBe(200);
 		});
 
 		await page.goto('/home');
@@ -284,7 +285,7 @@ test.describe('SAML', () => {
 
 	test('User Merge - By Email', async ({ page, api }) => {
 		await test.step('Configure SAML to identify users by email', async () => {
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_immutable_property', 'EMail')).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_immutable_property', 'EMail')).status()).toBe(200);
 		});
 
 		await doLoginStep(page, 'samluser2');
@@ -303,8 +304,8 @@ test.describe('SAML', () => {
 
 	test('User Merge - By Username', async ({ page, api }) => {
 		await test.step('Configure SAML to identify users by username', async () => {
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_immutable_property', 'Username')).status()).toBe(200);
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_mail_overwrite', false)).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_immutable_property', 'Username')).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_mail_overwrite', false)).status()).toBe(200);
 		});
 
 		await doLoginStep(page, 'samluser3');
@@ -323,8 +324,8 @@ test.describe('SAML', () => {
 
 	test('User Merge - By Username with Email Override', async ({ page, api }) => {
 		await test.step('Configure SAML to identify users by username', async () => {
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_immutable_property', 'Username')).status()).toBe(200);
-			await expect((await setSettingValueById(api, 'SAML_Custom_Default_mail_overwrite', true)).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_immutable_property', 'Username')).status()).toBe(200);
+			expect((await setSettingValueById(api, 'SAML_Custom_Default_mail_overwrite', true)).status()).toBe(200);
 		});
 
 		await doLoginStep(page, 'samluser3');

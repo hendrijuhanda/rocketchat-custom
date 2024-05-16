@@ -19,7 +19,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
 
-import type { CustomFieldsAdditionalFormFields } from '../../../../ee/client/omnichannel/additionalForms/CustomFieldsAdditionalForm';
 import {
 	Contextualbar,
 	ContextualbarTitle,
@@ -28,6 +27,7 @@ import {
 	ContextualbarFooter,
 	ContextualbarScrollableContent,
 } from '../../../components/Contextualbar';
+import type { CustomFieldsAdditionalFormFields } from '../../../omnichannel/additionalForms/CustomFieldsAdditionalForm';
 import { CustomFieldsAdditionalForm } from '../additionalForms';
 import { useRemoveCustomField } from './useRemoveCustomField';
 

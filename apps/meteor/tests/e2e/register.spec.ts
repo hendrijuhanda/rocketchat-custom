@@ -47,7 +47,7 @@ test.describe.parallel('register', () => {
 			test.beforeEach(async ({ api }) => {
 				const result = await api.post('/settings/Accounts_RequirePasswordConfirmation', { value: false });
 
-				await expect(result.ok()).toBeTruthy();
+				expect(result.ok()).toBeTruthy();
 			});
 			test.beforeEach(async ({ page }) => {
 				await page.goto('/home');
@@ -57,7 +57,7 @@ test.describe.parallel('register', () => {
 				const result = await api.post('/settings/Accounts_RequirePasswordConfirmation', {
 					value: true,
 				});
-				await expect(result.ok()).toBeTruthy();
+				expect(result.ok()).toBeTruthy();
 			});
 
 			test('expect to register a user without password confirmation', async () => {
@@ -81,7 +81,7 @@ test.describe.parallel('register', () => {
 			test.beforeEach(async ({ api }) => {
 				const result = await api.post('/settings/Accounts_ManuallyApproveNewUsers', { value: true });
 
-				await expect(result.ok()).toBeTruthy();
+				expect(result.ok()).toBeTruthy();
 			});
 			test.beforeEach(async ({ page }) => {
 				poRegistration = new Registration(page);
@@ -94,7 +94,7 @@ test.describe.parallel('register', () => {
 				const result = await api.post('/settings/Accounts_ManuallyApproveNewUsers', {
 					value: false,
 				});
-				await expect(result.ok()).toBeTruthy();
+				expect(result.ok()).toBeTruthy();
 			});
 
 			test('it should expect to have a textbox asking the reason for the registration', async () => {
@@ -112,7 +112,7 @@ test.describe.parallel('register', () => {
 		test.describe('Registration form Disabled', async () => {
 			test.beforeEach(async ({ api }) => {
 				const result = await api.post('/settings/Accounts_RegistrationForm', { value: 'Disabled' });
-				await expect(result.ok()).toBeTruthy();
+				expect(result.ok()).toBeTruthy();
 			});
 
 			test.afterEach(async ({ api }) => {
@@ -129,9 +129,9 @@ test.describe.parallel('register', () => {
 		test('should not have any accessibility violations', async ({ page, makeAxeBuilder }) => {
 			await page.goto('/home');
 			await poRegistration.goToRegister.click();
-	
+
 			const results = await makeAxeBuilder().analyze();
-	
+
 			expect(results.violations).toEqual([]);
 		});
 	});
@@ -142,12 +142,12 @@ test.describe.parallel('register', () => {
 			poUtils = new Utils(page);
 			const result = await api.post('/settings/Accounts_RegistrationForm', { value: 'Secret URL' });
 			await api.post('/settings/Accounts_RegistrationForm_SecretURL', { value: 'secret' });
-			await expect(result.ok()).toBeTruthy();
+			expect(result.ok()).toBeTruthy();
 		});
 
 		test.afterAll(async ({ api }) => {
 			const result = await api.post('/settings/Accounts_RegistrationForm', { value: 'Public' });
-			await expect(result.ok()).toBeTruthy();
+			expect(result.ok()).toBeTruthy();
 		});
 
 		test('It should expect a message warning that registration is disabled', async ({ page }) => {
@@ -184,7 +184,7 @@ test.describe.parallel('register', () => {
 		test.beforeAll(async ({ api }) => {
 			const result = await api.post('/settings/Accounts_RegistrationForm', { value: 'Public' });
 			await api.post('/settings/Accounts_RegistrationForm_SecretURL', { value: 'secret' });
-			await expect(result.ok()).toBeTruthy();
+			expect(result.ok()).toBeTruthy();
 		});
 
 		test('It should show an invalid page informing that the url is not valid', async ({ page }) => {

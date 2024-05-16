@@ -24,7 +24,7 @@ test.describe.serial('OC - Livechat', () => {
 
 	test.beforeAll(async ({ api }) => {
 		const statusCode = (await api.post('/livechat/users/agent', { username: 'user1' })).status();
-		await expect(statusCode).toBe(200);
+		expect(statusCode).toBe(200);
 	});
 
 	test.beforeAll(async ({ browser, api }) => {
@@ -106,7 +106,7 @@ test.describe.serial('OC - Livechat - Resub after close room', () => {
 
 	test.beforeAll(async ({ api }) => {
 		const statusCode = (await api.post('/livechat/users/agent', { username: 'user1' })).status();
-		await expect(statusCode).toBe(200);
+		expect(statusCode).toBe(200);
 	});
 
 	test.beforeAll(async ({ browser, api }) => {
@@ -154,7 +154,7 @@ test.describe('OC - Livechat - Resume chat after closing', () => {
 
 	test.beforeAll(async ({ api }) => {
 		const statusCode = (await api.post('/livechat/users/agent', { username: 'user1' })).status();
-		await expect(statusCode).toBe(200);
+		expect(statusCode).toBe(200);
 	});
 
 	test.beforeAll(async ({ browser, api }) => {
@@ -278,7 +278,7 @@ test.describe('OC - Livechat - Livechat_Display_Offline_Form', () => {
 	test('OC - Livechat - Livechat_Display_Offline_Form false', async () => {
 		await test.step('expect offline form to not be visible', async () => {
 			await poLiveChat.openAnyLiveChat();
-			await expect (poLiveChat.page.locator(`div >> text=${message}`)).toBeVisible();
+			await expect(poLiveChat.page.locator(`div >> text=${message}`)).toBeVisible();
 			await expect(poLiveChat.textAreaMessage).not.toBeVisible();
 		});
 	});

@@ -59,7 +59,7 @@ test.describe.serial('OC - Livechat Appearance', () => {
 
 	test('OC - Livechat Appearance - Change Livechat background', async ({ page }) => {
 		await test.step('expect to have default value', async () => {
-			await expect(await poLivechatAppearance.inputLivechatBackground).toHaveValue('');
+			await expect(poLivechatAppearance.inputLivechatBackground).toHaveValue('');
 		});
 
 		await test.step('expect to change value', async () => {

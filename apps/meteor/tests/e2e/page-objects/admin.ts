@@ -206,6 +206,6 @@ export class Admin {
 	}
 
 	getUserRowByUsername(username: string): Locator {
-		return this.page.locator('tr', { hasText: username })
+		return this.page.locator('tr', { hasText: username });
 	}
 }

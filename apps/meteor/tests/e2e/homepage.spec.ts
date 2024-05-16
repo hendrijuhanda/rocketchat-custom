@@ -44,14 +44,12 @@ test.describe.serial('homepage', () => {
 
 		test.describe('custom body with empty custom content', async () => {
 			test.beforeAll(async ({ api }) => {
-				await expect((await api.post('/settings/Layout_Home_Body', { value: '' })).status()).toBe(200);
+				expect((await api.post('/settings/Layout_Home_Body', { value: '' })).status()).toBe(200);
 			});
 
 			test('visibility and button functionality in custom body with empty custom content', async () => {
 				await test.step('expect default value in custom body', async () => {
-					await expect(
-						adminPage.locator('div >> text="Admins may insert content html to be rendered in this white space."'),
-					).toBeVisible();
+					await expect(adminPage.locator('div >> text="Admins may insert content html to be rendered in this white space."')).toBeVisible();
 				});
 
 				await test.step('expect both change visibility and show only custom content buttons to be disabled', async () => {
@@ -67,7 +65,7 @@ test.describe.serial('homepage', () => {
 
 		test.describe('custom body with custom content', () => {
 			test.beforeAll(async ({ api }) => {
-				await expect((await api.post('/settings/Layout_Home_Body', { value: 'Hello admin' })).status()).toBe(200);
+				expect((await api.post('/settings/Layout_Home_Body', { value: 'Hello admin' })).status()).toBe(200);
 			});
 
 			test('visibility and button functionality in custom body with custom content', async () => {
@@ -85,9 +83,9 @@ test.describe.serial('homepage', () => {
 				test.skip(!IS_EE, 'Enterprise Only');
 
 				test.beforeAll(async ({ api }) => {
-					await expect((await api.post('/settings/Layout_Home_Body', { value: 'Hello admin' })).status()).toBe(200);
-					await expect((await api.post('/settings/Layout_Home_Custom_Block_Visible', { value: true })).status()).toBe(200);
-					await expect((await api.post('/settings/Layout_Custom_Body_Only', { value: true })).status()).toBe(200);
+					expect((await api.post('/settings/Layout_Home_Body', { value: 'Hello admin' })).status()).toBe(200);
+					expect((await api.post('/settings/Layout_Home_Custom_Block_Visible', { value: true })).status()).toBe(200);
+					expect((await api.post('/settings/Layout_Custom_Body_Only', { value: true })).status()).toBe(200);
 				});
 
 				test('display custom content only', async () => {

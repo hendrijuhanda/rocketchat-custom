@@ -13,7 +13,7 @@ test.describe.serial('retention-policy', () => {
 	test.beforeAll(async ({ api }) => {
 		targetChannel = await createTargetChannel(api);
 		targetGroup = await createTargetPrivateChannel(api);
-	})
+	});
 
 	test.beforeEach(async ({ page }) => {
 		poHomeChannel = new HomeChannel(page);
@@ -37,10 +37,10 @@ test.describe.serial('retention-policy', () => {
 		});
 	});
 
-	test.describe('retention policy enabled', () => {	
+	test.describe('retention policy enabled', () => {
 		test.beforeAll(async ({ api }) => {
 			await setSettingValueById(api, 'RetentionPolicy_Enabled', true);
-		})
+		});
 		test.afterAll(async ({ api }) => {
 			await setSettingValueById(api, 'RetentionPolicy_Enabled', false);
 			await setSettingValueById(api, 'RetentionPolicy_AppliesToChannels', false);
@@ -78,7 +78,7 @@ test.describe.serial('retention-policy', () => {
 			test('should prune old messages checkbox enabled by default in channel and show retention policy banner', async () => {
 				await poHomeChannel.sidenav.openChat(targetChannel);
 				await expect(poHomeChannel.content.channelRetentionPolicyWarning).toBeVisible();
-	
+
 				await poHomeChannel.tabs.btnRoomInfo.click();
 				await poHomeChannel.tabs.room.btnEdit.click();
 				await poHomeChannel.tabs.room.pruneAccordion.click();
@@ -88,7 +88,7 @@ test.describe.serial('retention-policy', () => {
 			test('should prune old messages checkbox enabled by default in group and show retention policy banner', async () => {
 				await poHomeChannel.sidenav.openChat(targetGroup);
 				await expect(poHomeChannel.content.channelRetentionPolicyWarning).toBeVisible();
-	
+
 				await poHomeChannel.tabs.btnRoomInfo.click();
 				await poHomeChannel.tabs.room.btnEdit.click();
 				await poHomeChannel.tabs.room.pruneAccordion.click();
@@ -112,10 +112,10 @@ test.describe.serial('retention-policy', () => {
 				await poHomeChannel.tabs.room.btnEdit.click();
 				await poHomeChannel.tabs.room.pruneAccordion.click();
 				await poHomeChannel.tabs.room.checkboxOverrideGlobalRetention.click();
-	
+
 				await expect(poHomeChannel.tabs.room.getMaxAgeLabel('15')).toBeVisible();
 			});
-	
+
 			test('should display overridden retention max age value', async () => {
 				await poHomeChannel.sidenav.openChat(targetChannel);
 				await poHomeChannel.tabs.btnRoomInfo.click();
@@ -125,11 +125,11 @@ test.describe.serial('retention-policy', () => {
 				await poHomeChannel.tabs.room.inputRetentionMaxAge.fill('365');
 				await poHomeChannel.tabs.room.btnSave.click();
 				await poHomeChannel.dismissToast();
-	
+
 				await poHomeChannel.tabs.btnRoomInfo.click();
 				await poHomeChannel.tabs.room.btnEdit.click();
 				await poHomeChannel.tabs.room.pruneAccordion.click();
-	
+
 				await expect(poHomeChannel.tabs.room.getMaxAgeLabel('15')).toBeVisible();
 				await expect(poHomeChannel.tabs.room.inputRetentionMaxAge).toHaveValue('365');
 			});

@@ -24,7 +24,8 @@ const UsersSelectElement = ({ block, context }: UsersSelectElementProps) => {
   const data = useUsersData({ filter: debouncedFilter });
 
   const handleChange = useCallback(
-    (value) => {
+    (value: string | string[]) => {
+      if (Array.isArray(value)) return;
       action({ target: { value } });
     },
     [action]

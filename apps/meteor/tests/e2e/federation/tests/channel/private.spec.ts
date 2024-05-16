@@ -793,7 +793,7 @@ test.describe.parallel('Federation - Group Creation', () => {
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameFromServer2)).toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).toBeVisible();
-				await expect(await poFederationChannelServer2.getFederationServerName()).toBe(constants.RC_SERVER_1.matrixServerName);
+				expect(await poFederationChannelServer2.getFederationServerName()).toBe(constants.RC_SERVER_1.matrixServerName);
 				await pageForServer2.close();
 			});
 			// TODO: skipping this test until we have an extra server ready to test this.
@@ -982,13 +982,13 @@ test.describe.parallel('Federation - Group Creation', () => {
 
 				await expect(poFederationChannelServer1.tabs.btnTabMembers).toBeVisible();
 				await poFederationChannelServer1.tabs.btnTabMembers.click();
-				await (await poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2)).click();
+				await poFederationChannelServer1.tabs.members.getUserInList(usernameWithDomainFromServer2).click();
 				await poFederationChannelServer1.tabs.members.btnMenuUserInfo.click();
 				await expect(poFederationChannelServer1.tabs.members.btnRemoveUserFromRoom).toBeVisible();
 
 				await expect(poFederationChannelServer2.tabs.btnTabMembers).toBeVisible();
 				await poFederationChannelServer2.tabs.btnTabMembers.click();
-				await (await poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1)).click();
+				await poFederationChannelServer2.tabs.members.getUserInList(usernameWithDomainFromServer1).click();
 				await expect(poFederationChannelServer2.tabs.members.btnMenuUserInfo).not.toBeVisible();
 				await expect(poFederationChannelServer2.tabs.members.btnRemoveUserFromRoom).not.toBeVisible();
 
@@ -1161,7 +1161,7 @@ test.describe.parallel('Federation - Group Creation', () => {
 
 				const leftChannelSystemMessageServer1 = await poFederationChannelServer1.content.getSystemMessageByText('left the channel');
 				await expect(leftChannelSystemMessageServer1).toBeVisible();
-				await expect(await (await poFederationChannelServer1.content.getLastSystemMessageName()).textContent()).toBe(
+				expect(await (await poFederationChannelServer1.content.getLastSystemMessageName()).textContent()).toBe(
 					usernameWithDomainFromServer2,
 				);
 			});

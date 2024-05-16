@@ -12,4 +12,4 @@ export const getUserInfo = async (api: BaseTest['api'], username: string): Promi
 	const data = await response.json();
 
 	return data.user;
-}
+};
