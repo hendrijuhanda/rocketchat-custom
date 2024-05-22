@@ -5,8 +5,10 @@ import { handleConnection, handleMethod } from './helpers';
 
 let server: WS;
 
+const serverURL = `ws://localhost:1234`;
+
 beforeEach(() => {
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 });
 
 afterEach(() => {
@@ -16,7 +18,7 @@ afterEach(() => {
 
 describe('login', () => {
 	it('should save credentials to user object - loginWithToken', async () => {
-		const sdk = DDPSDK.create('ws://localhost:1234');
+		const sdk = DDPSDK.create(serverURL);
 
 		await handleConnection(server, sdk.connection.connect());
 
@@ -35,7 +37,7 @@ describe('login', () => {
 	});
 
 	it('should save credentials to user object - loginWithPassword', async () => {
-		const sdk = DDPSDK.create('ws://localhost:1234');
+		const sdk = DDPSDK.create(serverURL);
 
 		await handleConnection(server, sdk.connection.connect());
 
@@ -60,7 +62,7 @@ describe('login', () => {
 	});
 
 	it('should logout', async () => {
-		const sdk = DDPSDK.create('ws://localhost:1234');
+		const sdk = DDPSDK.create(serverURL);
 
 		await handleConnection(server, sdk.connection.connect());
 

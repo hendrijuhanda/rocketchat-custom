@@ -5,8 +5,11 @@ import { MinimalDDPClient } from '../src/MinimalDDPClient';
 import { handleConnection, handleConnectionAndRejects, handleMethod } from './helpers';
 
 let server: WS;
+
+const serverURL = `ws://localhost:1235`;
+
 beforeEach(() => {
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 });
 
 afterEach(() => {
@@ -17,7 +20,7 @@ afterEach(() => {
 
 it('should connect', async () => {
 	const client = new MinimalDDPClient();
-	const connection = new ConnectionImpl('ws://localhost:1234', WebSocket as any, client, { retryCount: 0, retryTime: 0 });
+	const connection = new ConnectionImpl(serverURL, WebSocket as any, client, { retryCount: 0, retryTime: 0 });
 
 	expect(connection.status).toBe('idle');
 	expect(connection.session).toBeUndefined();
@@ -29,7 +32,7 @@ it('should connect', async () => {
 
 it('should handle a failing connection', async () => {
 	const client = new MinimalDDPClient();
-	const connection = new ConnectionImpl('ws://localhost:1234', WebSocket as any, client, { retryCount: 0, retryTime: 0 });
+	const connection = new ConnectionImpl(serverURL, WebSocket as any, client, { retryCount: 0, retryTime: 0 });
 
 	expect(connection.status).toBe('idle');
 	expect(connection.session).toBeUndefined();
@@ -42,7 +45,7 @@ it('should handle a failing connection', async () => {
 
 it('should trigger a disconnect callback', async () => {
 	const client = new MinimalDDPClient();
-	const connection = ConnectionImpl.create('ws://localhost:1234', globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
+	const connection = ConnectionImpl.create(serverURL, globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
 
 	expect(connection.status).toBe('idle');
 	expect(connection.session).toBeUndefined();
@@ -63,7 +66,7 @@ it('should trigger a disconnect callback', async () => {
 it('should handle the close method', async () => {
 	const client = new MinimalDDPClient();
 
-	const connection = ConnectionImpl.create('ws://localhost:1234', globalThis.WebSocket, client, {
+	const connection = ConnectionImpl.create(serverURL, globalThis.WebSocket, client, {
 		retryCount: 0,
 		retryTime: 0,
 	});
@@ -88,7 +91,7 @@ it('should handle the close method', async () => {
 
 it('should handle reconnecting', async () => {
 	const client = new MinimalDDPClient();
-	const connection = ConnectionImpl.create('ws://localhost:1234', WebSocket, client, { retryCount: 1, retryTime: 100 });
+	const connection = ConnectionImpl.create(serverURL, WebSocket, client, { retryCount: 1, retryTime: 100 });
 
 	expect(connection.status).toBe('idle');
 	expect(connection.session).toBeUndefined();
@@ -103,7 +106,7 @@ it('should handle reconnecting', async () => {
 
 	server.close();
 	WS.clean();
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 
 	expect(connection.status).toBe('disconnected');
 
@@ -120,7 +123,7 @@ it('should handle reconnecting', async () => {
 
 it('should queue messages if the connection is not ready', async () => {
 	const client = new MinimalDDPClient();
-	const connection = ConnectionImpl.create('ws://localhost:1234', globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
+	const connection = ConnectionImpl.create(serverURL, globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
 
 	await handleConnection(server, connection.connect());
 
@@ -141,7 +144,7 @@ it('should queue messages if the connection is not ready', async () => {
 
 it('should throw an error if a reconnect is called while a connection is in progress', async () => {
 	const client = new MinimalDDPClient();
-	const connection = ConnectionImpl.create('ws://localhost:1234', globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
+	const connection = ConnectionImpl.create(serverURL, globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
 
 	await handleConnection(server, connection.connect());
 
@@ -150,7 +153,7 @@ it('should throw an error if a reconnect is called while a connection is in prog
 
 it('should throw an error if a connect is called while a connection is in progress', async () => {
 	const client = new MinimalDDPClient();
-	const connection = ConnectionImpl.create('ws://localhost:1234', globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
+	const connection = ConnectionImpl.create(serverURL, globalThis.WebSocket, client, { retryCount: 0, retryTime: 0 });
 
 	await handleConnection(server, connection.connect());
 

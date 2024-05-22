@@ -11,6 +11,8 @@ import { fireStreamChange, fireStreamAdded, fireStreamRemove, handleConnection, 
 
 export let server: WS;
 
+const serverURL = `ws://localhost:1236`;
+
 const callXTimes = <F extends (...args: any) => any>(fn: F, times: number): F => {
 	return (async (...args) => {
 		const methods = [].concat(...Array(times));
@@ -23,7 +25,7 @@ const callXTimes = <F extends (...args: any) => any>(fn: F, times: number): F =>
 };
 
 beforeEach(async () => {
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 });
 
 afterEach(() => {
@@ -38,7 +40,7 @@ it('should handle a stream of messages', async () => {
 	const streamName = 'stream';
 	const streamParams = '123';
 
-	const sdk = DDPSDK.create('ws://localhost:1234');
+	const sdk = DDPSDK.create(serverURL);
 
 	await handleConnection(server, sdk.connection.connect());
 
@@ -68,7 +70,7 @@ it('should ignore messages other from changed', async () => {
 	const streamName = 'stream';
 	const streamParams = '123';
 
-	const sdk = DDPSDK.create('ws://localhost:1234');
+	const sdk = DDPSDK.create(serverURL);
 
 	await handleConnection(server, sdk.connection.connect());
 
@@ -92,7 +94,7 @@ it('should handle streams after reconnect', async () => {
 	const streamName = 'stream';
 	const streamParams = '123';
 
-	const sdk = DDPSDK.create('ws://localhost:1234');
+	const sdk = DDPSDK.create(serverURL);
 
 	await handleConnection(server, sdk.connection.connect());
 
@@ -117,7 +119,7 @@ it('should handle streams after reconnect', async () => {
 	server.close();
 	WS.clean();
 
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 
 	const reconnect = new Promise((resolve) => sdk.connection.once('reconnecting', () => resolve(undefined)));
 	const connecting = new Promise((resolve) => sdk.connection.once('connecting', () => resolve(undefined)));
@@ -142,7 +144,7 @@ it('should handle an unsubscribe stream after reconnect', async () => {
 	const streamName = 'stream';
 	const streamParams = '123';
 
-	const sdk = DDPSDK.create('ws://localhost:1234');
+	const sdk = DDPSDK.create(serverURL);
 
 	await handleConnection(server, sdk.connection.connect());
 
@@ -169,7 +171,7 @@ it('should handle an unsubscribe stream after reconnect', async () => {
 
 	server.close();
 	WS.clean();
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 
 	const reconnect = new Promise((resolve) => sdk.connection.once('reconnecting', () => resolve(undefined)));
 	const connecting = new Promise((resolve) => sdk.connection.once('connecting', () => resolve(undefined)));
@@ -199,14 +201,14 @@ it('should handle an unsubscribe stream after reconnect', async () => {
 });
 
 it('should create and connect to a stream', async () => {
-	const promise = DDPSDK.createAndConnect('ws://localhost:1234');
+	const promise = DDPSDK.createAndConnect(serverURL);
 	await handleConnection(server, promise);
 	const sdk = await promise;
 	sdk.connection.close();
 });
 
 it.skip('should try to loginWithToken after reconnection', async () => {
-	const sdk = DDPSDK.create('ws://localhost:1234');
+	const sdk = DDPSDK.create(serverURL);
 
 	await handleConnection(server, sdk.connection.connect());
 
@@ -230,7 +232,7 @@ it.skip('should try to loginWithToken after reconnection', async () => {
 
 	server.close();
 	WS.clean();
-	server = new WS('ws://localhost:1234/websocket');
+	server = new WS(`${serverURL}/websocket`);
 
 	const reconnect = new Promise((resolve) => sdk.connection.once('reconnecting', () => resolve(undefined)));
 	const connecting = new Promise((resolve) => sdk.connection.once('connecting', () => resolve(undefined)));
@@ -246,7 +248,7 @@ it.skip('should try to loginWithToken after reconnection', async () => {
 
 describe('Method call and Disconnection cases', () => {
 	it('should handle properly if the message was sent after disconnection', async () => {
-		const sdk = DDPSDK.create('ws://localhost:1234');
+		const sdk = DDPSDK.create(serverURL);
 
 		await handleConnection(server, sdk.connection.connect());
 
@@ -258,7 +260,7 @@ describe('Method call and Disconnection cases', () => {
 
 		server.close();
 		WS.clean();
-		server = new WS('ws://localhost:1234/websocket');
+		server = new WS(`${serverURL}/websocket`);
 
 		const reconnect = new Promise((resolve) => sdk.connection.once('reconnecting', () => resolve(undefined)));
 		const connecting = new Promise((resolve) => sdk.connection.once('connecting', () => resolve(undefined)));
@@ -279,7 +281,7 @@ describe('Method call and Disconnection cases', () => {
 	});
 
 	it.skip('should handle properly if the message was sent before disconnection but got disconnected before receiving the response', async () => {
-		const sdk = DDPSDK.create('ws://localhost:1234');
+		const sdk = DDPSDK.create(serverURL);
 
 		await handleConnection(server, sdk.connection.connect());
 
@@ -292,7 +294,7 @@ describe('Method call and Disconnection cases', () => {
 
 		server.close();
 		WS.clean();
-		server = new WS('ws://localhost:1234/websocket');
+		server = new WS(`${serverURL}/websocket`);
 
 		const reconnect = new Promise((resolve) => sdk.connection.once('reconnecting', () => resolve(undefined)));
 		const connecting = new Promise((resolve) => sdk.connection.once('connecting', () => resolve(undefined)));
