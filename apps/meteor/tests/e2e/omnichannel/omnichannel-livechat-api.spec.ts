@@ -34,6 +34,8 @@ declare const window: Window & {
 			setBusinessUnit: (businessUnit?: string) => void;
 			setCustomField: (field: { key: string; value: string }) => void;
 			setDepartment: (dep: string) => void;
+			setGuestDepartment: (dep: string) => void;
+			setDefaultDepartmentField: (dep: string) => void;
 			setGuestEmail: (email: string) => void;
 			setGuestName: (name: string) => void;
 			setGuestToken: (token: string) => void;
@@ -224,11 +226,12 @@ test.describe('OC - Livechat API', () => {
 			agent = await createAgent(api, 'user1');
 			agent2 = await createAgent(api, 'user2');
 
-			departments = await Promise.all([createDepartment(api), createDepartment(api)]);
-			const [departmentA, departmentB] = departments.map(({ data }) => data);
+			departments = await Promise.all([createDepartment(api), createDepartment(api), createDepartment(api, { showOnRegistration: true })]);
+			const [departmentA, departmentB, departmentC] = departments.map(({ data }) => data);
 
 			await addAgentToDepartment(api, { department: departmentA, agentId: agent.data._id });
 			await addAgentToDepartment(api, { department: departmentB, agentId: agent2.data._id });
+			await addAgentToDepartment(api, { department: departmentC, agentId: agent2.data._id });
 			await expect((await api.post('/settings/Livechat_offline_email', { value: 'test@testing.com' })).status()).toBe(200);
 		});
 
@@ -247,7 +250,7 @@ test.describe('OC - Livechat API', () => {
 				await poAuxContext.poHomeOmnichannel.sidenav.switchStatus('online');
 			}
 
-			if (testInfo.title === 'OC - Livechat API - setDepartment') {
+			if (testInfo.title === 'OC - Livechat API - setDepartment' || testInfo.title === 'OC - Livechat API - setGuestDepartment') {
 				const { page: pageCtx2 } = await createAuxContext(browser, Users.user2);
 				poAuxContext2 = { page: pageCtx2, poHomeOmnichannel: new HomeOmnichannel(pageCtx) };
 			}
@@ -353,6 +356,55 @@ test.describe('OC - Livechat API', () => {
 				await poAuxContext2.poHomeOmnichannel.sidenav.openChat(registerGuestVisitor.name);
 			});
 		});
+
+		test('OC - Livechat API - setGuestDepartment', async () => {
+			const [departmentA, departmentB] = departments.map(({ data }) => data);
+			const registerGuestVisitor = {
+				name: faker.person.firstName(),
+				email: faker.internet.email(),
+				token: faker.string.uuid(),
+				department: departmentA._id,
+			};
+
+			// Start Chat
+			await poLiveChat.page.evaluate(() => window.RocketChat.livechat.maximizeWidget());
+			await expect(page.frameLocator('#rocketchat-iframe').getByText('Start Chat')).toBeVisible();
+
+			await poLiveChat.page.evaluate(
+				(registerGuestVisitor) => window.RocketChat.livechat.registerGuest(registerGuestVisitor),
+				registerGuestVisitor,
+			);
+
+			await expect(page.frameLocator('#rocketchat-iframe').getByText('Start Chat')).not.toBeVisible();
+
+			await poLiveChat.onlineAgentMessage.type('this_a_test_message_from_visitor');
+			await poLiveChat.btnSendMessageToOnlineAgent.click();
+
+			await test.step('Expect registered guest to be in dep1', async () => {
+				await poAuxContext.poHomeOmnichannel.sidenav.openChat(registerGuestVisitor.name);
+			});
+
+			const depId = departmentB._id;
+
+			await test.step('Expect setGuestDepartment to change a guest department', async () => {
+				await poLiveChat.page.evaluate((depId) => window.RocketChat.livechat.setGuestDepartment(depId), depId);
+			});
+
+			await test.step('Expect registered guest to be in dep2', async () => {
+				await poAuxContext2.poHomeOmnichannel.sidenav.openChat(registerGuestVisitor.name);
+			});
+		});
+
+		test('OC - Livechat API - setDefaultDepartmentField', async () => {
+			const departmentC = departments[2].data; 
+
+			await poLiveChat.page.evaluate((departmentC) => window.RocketChat.livechat.setDefaultDepartmentField(departmentC._id), departmentC);
+			await poLiveChat.page.evaluate(() => window.RocketChat.livechat.maximizeWidget());
+
+			await expect(page.frameLocator('#rocketchat-iframe').getByText('Start Chat')).toBeVisible();		
+			await expect(page.frameLocator('#rocketchat-iframe').locator('[name="department"]')).toHaveValue(departmentC._id);
+		});
+
 
 		test('OC - Livechat API - registerGuest', async ({ browser }) => {
 			const registerGuestVisitor = {
