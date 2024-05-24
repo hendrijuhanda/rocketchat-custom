@@ -51,6 +51,7 @@ export const Register: FunctionalComponent<{ path: string }> = () => {
 		token,
 		dispatch,
 		user,
+		department: apiDepartment,
 	} = useContext(StoreContext);
 
 	const defaultTitle = t('need_help');
@@ -65,6 +66,8 @@ export const Register: FunctionalComponent<{ path: string }> = () => {
 			CustomFields.setCustomField(key, value, true);
 		});
 	};
+
+	const availableDepartments = departments.filter((dept) => dept.showOnRegistration);
 
 	const onSubmit = async ({
 		name,
@@ -83,7 +86,13 @@ export const Register: FunctionalComponent<{ path: string }> = () => {
 			...(department && { department }),
 		};
 
-		dispatch({ loading: true, department });
+		if (availableDepartments.length === 0 && apiDepartment) {
+			fields.department = apiDepartment;
+		} else {
+			dispatch({ department });
+		}
+
+		dispatch({ loading: true });
 
 		try {
 			const { visitor: user } = await Livechat.grantVisitor({ visitor: { ...fields, token } });
@@ -103,8 +112,6 @@ export const Register: FunctionalComponent<{ path: string }> = () => {
 			return dept._id;
 		}
 	};
-
-	const availableDepartments = departments.filter((dept) => dept.showOnRegistration);
 
 	useEffect(() => {
 		if (user?._id) {

@@ -305,6 +305,7 @@ export const useQuickActions = (): {
 
 	const roomOpen = room?.open && (room.u?._id === uid || hasManagerRole || hasMonitorRole) && room?.lastMessage?.t !== 'livechat-close';
 	const canMoveQueue = !!omnichannelRouteConfig?.returnQueue && room?.u !== undefined;
+	console.log('canMoveQueue', omnichannelRouteConfig, room, canMoveQueue);
 	const canForwardGuest = usePermission('transfer-livechat-guest');
 	const canSendTranscriptEmail = usePermission('send-omnichannel-chat-transcript');
 	const hasLicense = useHasLicenseModule('livechat-enterprise');

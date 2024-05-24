@@ -304,8 +304,19 @@ function setTheme(theme: StoreState['iframe']['theme']) {
 	callHook('setTheme', theme);
 }
 
+/**
+ * @deprecated Use `setDefaultDepartmentField` or `setGuestDepartment` instead
+ */
 function setDepartment(department: string) {
 	callHook('setDepartment', department);
+}
+
+function setDefaultDepartmentField(departmentField: string) {
+	callHook('setDefaultDepartmentField', departmentField);
+}
+
+function setGuestDepartment(department: string) {
+	callHook('setGuestDepartment', department);
 }
 
 function setBusinessUnit(businessUnit: string) {
@@ -533,6 +544,8 @@ const livechatWidgetAPI = {
 	setCustomField,
 	setTheme,
 	setDepartment,
+	setDefaultDepartmentField,
+	setGuestDepartment,
 	clearDepartment,
 	setGuestToken,
 	setGuestName,

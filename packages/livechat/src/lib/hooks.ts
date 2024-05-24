@@ -134,11 +134,49 @@ const api = {
 		});
 	},
 
+	/**
+	 * @deprecated Use `setDefaultDepartmentField` or `setGuestDepartment` instead
+	 */
 	setDepartment: async (value: string) => {
 		await evaluateChangesAndLoadConfigByFields(async () => api._setDepartment(value));
 	},
 
+	setGuestDepartment: async (value: string) => {
+		await evaluateChangesAndLoadConfigByFields(async () => api._setGuestDepartment(value));
+	},
+
+	setDefaultDepartmentField: async (value: string) => {
+		updateIframeData({ defaultDepartment: value });
+	},
+
+	_setGuestDepartment: async (value: string) => {
+		const {
+			config: { departments = [] },
+			defaultAgent,
+		} = store.state;
+
+		const department = departments.find((dep) => dep._id === value || dep.name === value)?._id || '';
+
+		if (!department) {
+			console.warn(
+				'The selected department is invalid. Check departments configuration to ensure the department exists, is enabled and has at least 1 agent',
+			);
+		}
+
+		updateIframeGuestData({ department });
+		store.setState({ department });
+
+		if (defaultAgent && defaultAgent.department !== department) {
+			store.setState({ defaultAgent: undefined });
+		}
+	},
+
+	/**
+	 * @deprecated Use `setDefaultDepartmentField` or `setGuestDepartment` instead
+	 */
 	_setDepartment: async (value: string) => {
+		console.warn('`setDepartment` is deprecated. Use `setDepartmentField` or `setGuestDepartment` instead');
+
 		const {
 			user,
 			config: { departments = [] },
