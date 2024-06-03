@@ -175,7 +175,7 @@ const api = {
 	 * @deprecated Use `setDefaultDepartmentField` or `setGuestDepartment` instead
 	 */
 	_setDepartment: async (value: string) => {
-		console.warn('`setDepartment` is deprecated. Use `setDepartmentField` or `setGuestDepartment` instead');
+		console.warn('`setDepartment` is deprecated and will be removed on version 8.0.0. Use `setDepartmentField` or `setGuestDepartment` instead');
 
 		const {
 			user,
