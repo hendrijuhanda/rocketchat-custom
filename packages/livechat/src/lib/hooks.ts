@@ -56,6 +56,13 @@ const createOrUpdateGuest = async (guest: StoreState['guest']) => {
 
 	const { token } = guest;
 	token && (await store.setState({ token }));
+
+	// set default department for guest
+	const { department } = store.state;
+	if (department && !guest.department) {
+		guest.department = department;
+	}
+
 	const { visitor: user } = await Livechat.grantVisitor({ visitor: { ...guest } });
 
 	if (!user) {
@@ -284,8 +291,12 @@ const api = {
 				data.token = createToken();
 			}
 
+			const { department } = store.state;
+
 			if (data.department) {
-				await api._setDepartment(data.department);
+				await api._setGuestDepartment(data.department);
+			} else if (department) {
+				await api._setGuestDepartment(department);
 			}
 
 			Livechat.unsubscribeAll();
