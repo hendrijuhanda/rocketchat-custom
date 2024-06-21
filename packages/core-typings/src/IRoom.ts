@@ -93,8 +93,6 @@ export interface IRoom extends IRocketChatRecord {
 	federated?: boolean;
 	/* @deprecated */
 	customFields?: Record<string, any>;
-
-	channel?: { _id: string };
 }
 
 export const isRoomWithJoinCode = (room: Partial<IRoom>): room is IRoomWithJoinCode =>
