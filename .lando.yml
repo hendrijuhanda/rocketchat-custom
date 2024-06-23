@@ -4,23 +4,19 @@ services:
     type: node:14
     globals:
       yarn: 'latest'
+    build_as_root:
+      - apt update -y && apt install -y build-essential
     build:
       - npm install -g meteor
+    ports:
+      - 3000:3000
     overrides:
       environment:
-        ROOT_URL: http://rocketchat.lndo.site:3000
-        MONGO_URL: mongodb://database:27017/rocketchat
+        ROOT_URL: http://localhost:3000
+        MONGO_URL: mongodb://mongo:27017/rocketchat
         PORT: 3000
+        OVERWRITE_SETTING_Show_Setup_Wizard: completed
 
   mongo:
-    type: mongo:4.4
+    type: mongo:5.0
     portforward: true
-
-proxy:
-  node:
-    - rocketchat.lndo.site:3000
-
-tooling:
-  meteor:
-    service: node
-    cmd: /home/node/.meteor/meteor

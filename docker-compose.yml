@@ -1,0 +1,14 @@
+services:
+  web:
+    image: rocketchat-custom
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/rocketchat
+      - ROOT_URL=http://localhost
+      - PORT=3000
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
